@@ -1,5 +1,6 @@
 <script>
 	import Navbar from '$components/Navbar.svelte';
+	import SidebarNavigation from '$components/SidebarNavigation.svelte';
 
 	import MediaQuery from '$lib/MediaQuery.svelte';
 
@@ -14,11 +15,13 @@
 					<Navbar />
 				</section>
 				<aside class="col-span-3 min-h-full border-solid">
+					<SidebarNavigation />
 					<slot>Loading...</slot>
 				</aside>
 			</div>
 		{:else}
 			<Navbar />
+			<SidebarNavigation />
 			<slot>Loading...</slot>
 		{/if}
 	</MediaQuery>
