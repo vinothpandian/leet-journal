@@ -3,6 +3,7 @@
 	import Filters from '$components/learn/Filters.svelte';
 	import QuestionItem from '$components/learn/QuestionItem.svelte';
 	import SearchBar from '$components/learn/SearchBar.svelte';
+	import TitleBar from '$components/learn/TitleBar.svelte';
 	import db from '$db/db';
 	import type { Difficulty, Question, QuestionHardness } from '$lib/types';
 	import { liveQuery, type Observable } from 'dexie';
@@ -14,7 +15,7 @@
 	let filterDifficulty: QuestionHardness | '' = '';
 	let filterTag: QuestionHardness | '' = '';
 
-	let checkedQuestions: Record<string, boolean> = {};
+	let selectedQuestions: Record<string, boolean> = {};
 
 	let rank: Difficulty = 3;
 
@@ -32,25 +33,17 @@
 			.toArray();
 	});
 
-	$: someQuestionSelected = Object.values(checkedQuestions).some(
+	$: someQuestionSelected = Object.values(selectedQuestions).some(
 		(checked) => checked
 	);
+
+	function clearSelected() {
+		selectedQuestions = {};
+	}
 </script>
 
 <div class="flex flex-col gap-6 p-6 content">
-	<div class="flex justify-between">
-		<h6>Leetcode Questions</h6>
-		<button
-			type="button"
-			class="btn btn-xs"
-			on:click={() => {
-				checkedQuestions = {};
-			}}
-			disabled={!someQuestionSelected}
-		>
-			Clear Selected
-		</button>
-	</div>
+	<TitleBar on:clearSelected={clearSelected} {someQuestionSelected} />
 	<SearchBar bind:searchTerm />
 	<Filters bind:filterDifficulty bind:filterTag />
 	<ul class="flex-grow overflow-auto pb-4">
@@ -58,9 +51,9 @@
 			{#each $questions as question (question.id)}
 				<QuestionItem
 					{question}
-					isQuestionChecked={checkedQuestions?.[question.questionId] ?? false}
+					isQuestionChecked={selectedQuestions?.[question.questionId] ?? false}
 					on:change={(event) => {
-						checkedQuestions[question.questionId] = event.detail.checked;
+						selectedQuestions[question.questionId] = event.detail.checked;
 					}}
 				/>
 			{/each}
@@ -99,7 +92,7 @@
 				<button
 					class="btn btn-sm btn-outline btn-error"
 					on:click={() => {
-						checkedQuestions = {};
+						selectedQuestions = {};
 					}}>Cancel</button
 				>
 				<button class="btn btn-sm">Save</button>
