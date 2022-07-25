@@ -1,3 +1,6 @@
+export type WithTarget<Event, Target> = Event & { currentTarget: Target };
+export type ChangeEvent = WithTarget<Event, HTMLInputElement>;
+
 export interface RawQuestion {
 	questionId: string;
 	title: string;

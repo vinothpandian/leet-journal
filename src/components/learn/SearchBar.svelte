@@ -9,10 +9,10 @@
 		<input
 			type="text"
 			placeholder="Search…"
-			class="input input-bordered flex-grow"
+			class="input input-sm input-bordered flex-grow"
 			bind:value={searchTerm}
 		/>
-		<button class="btn btn-square">
+		<button class="btn btn-sm btn-square">
 			<Search />
 		</button>
 	</div>

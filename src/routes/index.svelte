@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { browser } from '$app/env';
 	import Filters from '$components/learn/Filters.svelte';
+	import QuestionItem from '$components/learn/QuestionItem.svelte';
 	import SearchBar from '$components/learn/SearchBar.svelte';
 	import db from '$db/db';
-	import type { Question, QuestionHardness } from '$lib/types';
+	import type { Difficulty, Question, QuestionHardness } from '$lib/types';
 	import { liveQuery, type Observable } from 'dexie';
 	import { fly } from 'svelte/transition';
 
@@ -14,6 +15,8 @@
 	let filterTag: QuestionHardness | '' = '';
 
 	let checkedQuestions: Record<string, boolean> = {};
+
+	let rank: Difficulty = 3;
 
 	$: questions = liveQuery(() => {
 		if (!browser) {
@@ -34,59 +37,73 @@
 	);
 </script>
 
-<div class="flex flex-col gap-8 p-8 content">
+<div class="flex flex-col gap-6 p-6 content">
+	<div class="flex justify-between">
+		<h6>Leetcode Questions</h6>
+		<button
+			type="button"
+			class="btn btn-xs"
+			on:click={() => {
+				checkedQuestions = {};
+			}}
+			disabled={!someQuestionSelected}
+		>
+			Clear Selected
+		</button>
+	</div>
 	<SearchBar bind:searchTerm />
 	<Filters bind:filterDifficulty bind:filterTag />
-	<button
-		type="button"
-		class="btn btn-xs"
-		on:click={() => {
-			checkedQuestions = {};
-		}}
-		disabled={!someQuestionSelected}>Clear Selection</button
-	>
 	<ul class="flex-grow overflow-auto pb-4">
 		{#if $questions}
 			{#each $questions as question (question.id)}
-				<li>
-					<div class="form-control">
-						<label class="label cursor-pointer gap-2 justify-start">
-							<input
-								type="checkbox"
-								checked={checkedQuestions?.[question.questionId] ?? false}
-								on:change={(event) => {
-									checkedQuestions[question.questionId] =
-										event.currentTarget.checked;
-								}}
-								class="checkbox checkbox-primary"
-							/>
-							<span
-								class="label-text flex flex-grow gap-2 justify-between px-2 items-center"
-							>
-								{question.title}
-								<span
-									class="badge badge-xs badge-outline text-[9px] rounded"
-									class:badge-success={question.hardness === 'easy'}
-									class:badge-warning={question.hardness === 'medium'}
-									class:badge-error={question.hardness === 'hard'}
-								>
-									{question.hardness}
-								</span>
-							</span>
-						</label>
-					</div>
-				</li>
+				<QuestionItem
+					{question}
+					isQuestionChecked={checkedQuestions?.[question.questionId] ?? false}
+					on:change={(event) => {
+						checkedQuestions[question.questionId] = event.detail.checked;
+					}}
+				/>
 			{/each}
 		{:else}
 			Loading...
 		{/if}
 	</ul>
-	{#if !someQuestionSelected}
+	{#if someQuestionSelected}
 		<div
 			in:fly={{ y: 200, duration: 500 }}
-			class="min-h-[13rem] h-52 border-t border-gray-300"
+			class="min-h-[11rem] h-44 border-t border-gray-300 flex flex-col gap-4 p-4"
 		>
-			<input type="date" id="start" />
+			<h1 class="text-md font-bold">Add to review</h1>
+			<div class="flex gap-2 items-center">
+				<span>Completed on: </span>
+				<input type="date" id="updatedDate" />
+			</div>
+
+			<div class="flex gap-2 items-center">
+				<span>Difficulty: </span>
+				<div class="btn-group">
+					{#each [1, 2, 3, 4, 5] as value}
+						<input
+							type="radio"
+							{value}
+							name="options"
+							data-title={value}
+							class="btn btn-xs"
+							checked={value === rank}
+						/>
+					{/each}
+				</div>
+			</div>
+
+			<div class="flex justify-end gap-4">
+				<button
+					class="btn btn-sm btn-outline btn-error"
+					on:click={() => {
+						checkedQuestions = {};
+					}}>Cancel</button
+				>
+				<button class="btn btn-sm">Save</button>
+			</div>
 		</div>
 	{/if}
 </div>

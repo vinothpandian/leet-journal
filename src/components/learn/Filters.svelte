@@ -22,26 +22,28 @@
 </script>
 
 <div class="flex justify-between items-center flex-wrap md:flex-nowrap">
-	<select
-		bind:value={filterDifficulty}
-		class="select select-xs min-w-full md:min-w-min"
-	>
-		<option value="" selected>Select Difficulty</option>
-		<option value="easy" class="text-success">Easy</option>
-		<option value="medium" class="text-warning">Medium</option>
-		<option value="hard" class="text-error">Hard</option>
-	</select>
-	<select
-		bind:value={filterTag}
-		class="select select-xs min-w-full md:min-w-min"
-	>
-		<option value="" selected>Select Tags</option>
-		{#if $questionTypes}
-			{#each $questionTypes as questionType}
-				<option value={questionType}>{questionType}</option>
-			{/each}
-		{/if}
-	</select>
+	<div>
+		<select
+			bind:value={filterDifficulty}
+			class="select select-xs min-w-full md:min-w-min"
+		>
+			<option value="" selected>Select Difficulty</option>
+			<option value="easy" class="text-success">Easy</option>
+			<option value="medium" class="text-warning">Medium</option>
+			<option value="hard" class="text-error">Hard</option>
+		</select>
+		<select
+			bind:value={filterTag}
+			class="select select-xs min-w-full md:min-w-min"
+		>
+			<option value="" selected>Select Tags</option>
+			{#if $questionTypes}
+				{#each $questionTypes as questionType}
+					<option value={questionType}>{questionType}</option>
+				{/each}
+			{/if}
+		</select>
+	</div>
 
 	<button
 		type="button"
