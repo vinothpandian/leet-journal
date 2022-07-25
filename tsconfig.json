@@ -14,7 +14,8 @@
 			"$icons/*": ["src/icons/*"],
 			"$lib": ["src/lib"],
 			"$lib/*": ["src/lib/*"],
-			"$db/*": ["src/db/*"]
+			"$db/*": ["src/db/*"],
+			"$store/*": ["src/store/*"]
 		}
 	}
 }

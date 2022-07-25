@@ -16,6 +16,7 @@ const config = {
 			$icons: 'src/icons',
 			$lib: 'src/lib',
 			$db: 'src/db',
+			$store: 'src/store',
 		},
 	},
 };
