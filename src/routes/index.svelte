@@ -5,9 +5,9 @@
 	import QuestionsList from '$components/learn/QuestionsList.svelte';
 	import SearchBar from '$components/learn/SearchBar.svelte';
 	import TitleBar from '$components/learn/TitleBar.svelte';
-	import type { QuestionState } from '$components/learn/types';
+	import type { QuestionState, ReviewInfo } from '$components/learn/types';
 	import db from '$db/db';
-	import type { Difficulty, QuestionHardness } from '$lib/types';
+	import type { QuestionHardness } from '$lib/types';
 	import { liveQuery } from 'dexie';
 
 	let searchTerm: string = '';
@@ -16,8 +16,6 @@
 	let filterTag: QuestionHardness | '' = '';
 
 	let selectedQuestions: Record<string, boolean> = {};
-
-	let rank: Difficulty = 3;
 
 	$: questions = liveQuery(() => {
 		if (!browser) {
@@ -45,6 +43,11 @@
 		const { questionId, checked } = event.detail;
 		selectedQuestions[questionId] = checked;
 	}
+
+	function handleAddReview(event: CustomEvent<ReviewInfo>) {
+		const { difficulty, reviewDate } = event.detail;
+		console.log(event.detail);
+	}
 </script>
 
 <div class="flex flex-col gap-6 p-6 wrapper">
@@ -53,7 +56,7 @@
 	<Filters bind:filterDifficulty bind:filterTag />
 	<QuestionsList {questions} {selectedQuestions} on:change={handleChange} />
 	{#if someQuestionSelected}
-		<AddReviewForm bind:rank on:cancel={clearSelected} />
+		<AddReviewForm on:save={handleAddReview} on:cancel={clearSelected} />
 	{/if}
 </div>
 

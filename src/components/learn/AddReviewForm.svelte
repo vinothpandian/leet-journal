@@ -1,14 +1,27 @@
 <script lang="ts">
 	import type { Difficulty } from '$lib/types';
+	import dayjs from 'dayjs';
 	import { createEventDispatcher } from 'svelte';
 	import { fly } from 'svelte/transition';
+	import type { ReviewInfo } from './types';
 
-	export let rank: Difficulty = 3;
+	export let difficulty: Difficulty = 3;
+	export let reviewDate = dayjs().format('YYYY-MM-DD');
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<{
+		cancel: void;
+		save: ReviewInfo;
+	}>();
 
 	function handleCancel() {
 		dispatch('cancel');
+	}
+
+	function handleSave() {
+		dispatch('save', {
+			difficulty,
+			reviewDate: dayjs(reviewDate).unix(),
+		});
 	}
 </script>
 
@@ -19,7 +32,7 @@
 	<h1 class="text-md font-bold">Add to review</h1>
 	<div class="flex gap-2 items-center">
 		<span>Completed on: </span>
-		<input type="date" id="updatedDate" />
+		<input type="date" bind:value={reviewDate} />
 	</div>
 
 	<div class="flex gap-2 items-center">
@@ -32,7 +45,7 @@
 					name="options"
 					data-title={value}
 					class="btn btn-xs"
-					checked={value === rank}
+					checked={value === difficulty}
 				/>
 			{/each}
 		</div>
@@ -42,6 +55,6 @@
 		<button class="btn btn-sm btn-outline btn-error" on:click={handleCancel}
 			>Cancel</button
 		>
-		<button class="btn btn-sm">Save</button>
+		<button class="btn btn-sm" on:click={handleSave}>Save</button>
 	</div>
 </div>
