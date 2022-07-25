@@ -1,5 +1,6 @@
 <script lang="ts">
 	import QuestionItem from '$components/learn/QuestionItem.svelte';
+	import IntersectionObserver from '$lib/IntersectionObserver.svelte';
 	import type { Question } from '$lib/types';
 	import type { Observable } from 'dexie';
 	import { createEventDispatcher } from 'svelte';
@@ -33,6 +34,9 @@
 				}}
 			/>
 		{/each}
+		<IntersectionObserver on:intersect={console.log}>
+			<li class="animate-pulse text-sm text-gray-500 pt-2">Loading...</li>
+		</IntersectionObserver>
 		{#if $questions.length === 0}
 			No such leet code question found. Clear filters or change your search...
 		{/if}
