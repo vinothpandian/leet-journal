@@ -1,6 +1,6 @@
 <script>
-	import Navbar from '$components/Navbar.svelte';
-	import SidebarNavigation from '$components/SidebarNavigation.svelte';
+	import Navbar from '$components/common/Navbar.svelte';
+	import SidebarNavigation from '$components/common/SidebarNavigation.svelte';
 
 	import MediaQuery from '$lib/MediaQuery.svelte';
 

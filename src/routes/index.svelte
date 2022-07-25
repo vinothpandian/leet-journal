@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { browser } from '$app/env';
+	import Filters from '$components/learn/Filters.svelte';
+	import SearchBar from '$components/learn/SearchBar.svelte';
 	import db from '$db/db';
-	import { fly } from 'svelte/transition';
-
-	import Search from '$icons/Search.svelte';
 	import type { Question, QuestionHardness } from '$lib/types';
-
 	import { liveQuery, type Observable } from 'dexie';
+	import { fly } from 'svelte/transition';
 
 	let searchTerm: string = '';
 	let questions: Observable<Question[]>;
@@ -33,74 +32,19 @@
 	$: someQuestionSelected = Object.values(checkedQuestions).some(
 		(checked) => checked
 	);
-
-	$: questionTypes = liveQuery(async () => {
-		if (!browser) {
-			return [];
-		}
-
-		console.log('Ran again');
-
-		return db.questions.toArray((qns) =>
-			[...new Set(qns.map((qn) => qn.topicTags).flat())].sort()
-		);
-	});
 </script>
 
 <div class="flex flex-col gap-8 p-8 content">
-	<div class="form-control">
-		<div class="flex input-group">
-			<input
-				type="text"
-				placeholder="Search…"
-				class="input input-bordered flex-grow"
-				bind:value={searchTerm}
-			/>
-			<button class="btn btn-square">
-				<Search />
-			</button>
-		</div>
-	</div>
-	<div class="flex justify-between items-center flex-wrap gap-4">
-		<select
-			bind:value={filterDifficulty}
-			class="select select-xs min-w-full md:min-w-min"
-		>
-			<option value="" selected>Select Difficulty</option>
-			<option value="easy" class="text-success">Easy</option>
-			<option value="medium" class="text-warning">Medium</option>
-			<option value="hard" class="text-error">Hard</option>
-		</select>
-		<select
-			bind:value={filterTag}
-			class="select select-xs min-w-full md:min-w-min"
-		>
-			<option value="" selected>Select Tags</option>
-			{#if $questionTypes}
-				{#each $questionTypes as questionType}
-					<option value={questionType}>{questionType}</option>
-				{/each}
-			{/if}
-		</select>
-		<button
-			type="button"
-			class="btn btn-xs"
-			on:click={() => {
-				checkedQuestions = {};
-			}}
-			disabled={!someQuestionSelected}>Clear Selection</button
-		>
-		<button
-			type="button"
-			class="btn btn-xs"
-			on:click={() => {
-				filterDifficulty = '';
-				filterTag = '';
-			}}
-			disabled={filterDifficulty === '' && filterTag === ''}
-			>Clear Filters</button
-		>
-	</div>
+	<SearchBar bind:searchTerm />
+	<Filters bind:filterDifficulty bind:filterTag />
+	<button
+		type="button"
+		class="btn btn-xs"
+		on:click={() => {
+			checkedQuestions = {};
+		}}
+		disabled={!someQuestionSelected}>Clear Selection</button
+	>
 	<ul class="flex-grow overflow-auto pb-4">
 		{#if $questions}
 			{#each $questions as question (question.id)}
