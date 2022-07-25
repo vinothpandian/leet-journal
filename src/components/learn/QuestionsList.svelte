@@ -26,11 +26,13 @@
 	const dispatchLoadMore = () => {
 		dispatch('loadMore');
 	};
+
+	$: lastQuestionId = questions.slice(-1)[0]?.questionId ?? 0;
 </script>
 
 <ul class="flex-grow overflow-auto pb-4">
 	{#if questions}
-		{#each questions as { id, title, hardness, questionId } (id)}
+		{#each questions as { id, title, hardness, questionId }}
 			<QuestionItem
 				{title}
 				{hardness}
@@ -40,11 +42,13 @@
 				}}
 			/>
 		{/each}
-		{#if hasMore}
-			<IntersectionObserver on:intersect={dispatchLoadMore}>
-				<li class="animate-pulse text-sm text-gray-500 pt-2">Loading...</li>
-			</IntersectionObserver>
-		{/if}
+		{#key lastQuestionId}
+			{#if hasMore}
+				<IntersectionObserver on:intersect={dispatchLoadMore}>
+					<li class="animate-pulse text-sm text-gray-500 pt-2">Loading...</li>
+				</IntersectionObserver>
+			{/if}
+		{/key}
 		{#if questions.length === 0}
 			No such leet code question found. Clear filters or change your search...
 		{/if}

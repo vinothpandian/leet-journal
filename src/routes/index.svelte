@@ -59,6 +59,7 @@
 	function reset() {
 		questions = [];
 		fetchedQuestions = [];
+		hasMore = true;
 		page = -1;
 	}
 
