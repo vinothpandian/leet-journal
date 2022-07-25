@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import Settings from '$icons/settings.svelte';
+	import Settings from '$icons/Settings.svelte';
 	let path: string;
 
 	$: path = $page.url.pathname;

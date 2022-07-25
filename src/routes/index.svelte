@@ -1,14 +1,41 @@
-<script lang="ts" context="module">
-	import { getQuestionsList } from '$db/queries';
+<script lang="ts">
+	import { browser } from '$app/env';
+	import db from '$db/db';
 
-	import { liveQuery } from 'dexie';
+	import Search from '$icons/Search.svelte';
+	import type { Question } from '$lib/types';
 
-	let questions = liveQuery(getQuestionsList);
+	import { liveQuery, type Observable } from 'dexie';
+
+	let searchTerm: string = '';
+	let questions: Observable<Question[]>;
+
+	$: questions = liveQuery(() => {
+		if (!browser) {
+			return [];
+		}
+
+		return db.questions
+			.filter((q) => q.title.toLowerCase().includes(searchTerm.toLowerCase()))
+			.toArray();
+	});
 </script>
 
-<div>
-	<div>Questions</div>
-	<ul class="overflow-scroll content">
+<div class="flex flex-col gap-8 p-8 content">
+	<div class="form-control">
+		<div class="flex input-group">
+			<input
+				type="text"
+				placeholder="Search…"
+				class="input input-bordered flex-grow"
+				bind:value={searchTerm}
+			/>
+			<button class="btn btn-square">
+				<Search />
+			</button>
+		</div>
+	</div>
+	<ul class="flex-grow overflow-auto">
 		{#if $questions}
 			{#each $questions as question (question.id)}
 				<li>
