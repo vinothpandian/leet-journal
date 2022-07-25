@@ -27,5 +27,6 @@ module.exports = {
 	rules: {
 		'import/prefer-default-export': 'off',
 		'no-restricted-exports': 'off',
+		'import/extensions': 'off',
 	},
 };

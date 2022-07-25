@@ -1,15 +1,9 @@
 <script lang="ts" context="module">
-	import { browser } from '$app/env';
-	import db from '$lib/db';
+	import { getQuestionsList } from '$db/queries';
+
 	import { liveQuery } from 'dexie';
 
-	let questions = liveQuery(() => {
-		if (!browser) {
-			return [];
-		}
-
-		return db.questions.toArray();
-	});
+	let questions = liveQuery(getQuestionsList);
 </script>
 
 <div>

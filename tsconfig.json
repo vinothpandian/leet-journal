@@ -13,7 +13,8 @@
 			"$components/*": ["src/components/*"],
 			"$icons/*": ["src/icons/*"],
 			"$lib": ["src/lib"],
-			"$lib/*": ["src/lib/*"]
+			"$lib/*": ["src/lib/*"],
+			"$db/*": ["src/db/*"]
 		}
 	}
 }

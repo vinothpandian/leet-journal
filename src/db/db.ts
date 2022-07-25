@@ -1,5 +1,5 @@
 import Dexie from 'dexie';
-import type { Question, QuestionHardness, RawQuestion, Review } from './types';
+import type { Question, QuestionHardness, RawQuestion, Review } from '../lib/types';
 
 export class LeetJournalDb extends Dexie {
 	questions!: Dexie.Table<Question, number>;
