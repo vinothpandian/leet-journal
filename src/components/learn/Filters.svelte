@@ -5,8 +5,8 @@
 	import type { QuestionHardness } from '$lib/types';
 	import { liveQuery } from 'dexie';
 
-	export let filterDifficulty: QuestionHardness | '' = '';
-	export let filterTag: QuestionHardness | '' = '';
+	export let hardness: QuestionHardness | '' = '';
+	export let tag: string = '';
 
 	$: questionTypes = liveQuery(async () => {
 		if (!browser) {
@@ -19,17 +19,17 @@
 	});
 
 	function resetFilters() {
-		filterDifficulty = '';
-		filterTag = '';
+		hardness = '';
+		tag = '';
 	}
 
-	$: showClearButton = filterDifficulty === '' && filterTag === '';
+	$: showClearButton = hardness === '' && tag === '';
 </script>
 
 <div class="flex justify-between items-center flex-wrap md:flex-nowrap">
 	<div>
 		<select
-			bind:value={filterDifficulty}
+			bind:value={hardness}
 			class="select select-xs min-w-full md:min-w-min"
 		>
 			<option value="" selected>Select Difficulty</option>
@@ -37,10 +37,7 @@
 			<option value="medium" class="text-warning">Medium</option>
 			<option value="hard" class="text-error">Hard</option>
 		</select>
-		<select
-			bind:value={filterTag}
-			class="select select-xs min-w-full md:min-w-min"
-		>
+		<select bind:value={tag} class="select select-xs min-w-full md:min-w-min">
 			<option value="" selected>Select Tags</option>
 			{#if $questionTypes}
 				{#each $questionTypes as questionType}

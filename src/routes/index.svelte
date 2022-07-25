@@ -6,30 +6,39 @@
 	import SearchBar from '$components/learn/SearchBar.svelte';
 	import TitleBar from '$components/learn/TitleBar.svelte';
 	import type { QuestionState, ReviewInfo } from '$components/learn/types';
-	import db from '$db/db';
-	import type { QuestionHardness } from '$lib/types';
-	import { liveQuery } from 'dexie';
+	import { fetchQuestions } from '$db/queries';
+	import type { QuestionFilterParams } from '$db/types';
+	import type { Question } from '$lib/types';
 
-	let searchTerm: string = '';
-
-	let filterDifficulty: QuestionHardness | '' = '';
-	let filterTag: QuestionHardness | '' = '';
-
+	let questions: Question[] = [];
 	let selectedQuestions: Record<string, boolean> = {};
 
-	$: questions = liveQuery(() => {
+	let filterParams: QuestionFilterParams = {
+		searchTerm: '',
+		hardness: '',
+		tag: '',
+	};
+
+	let page = 0;
+	const pageSize = 25;
+	let fetchedQuestions: Question[] = [];
+	let hasMore = true;
+
+	const fetchData = async () => {
 		if (!browser) {
-			return [];
+			return null;
 		}
 
-		return db.questions
-			.filter((q) => filterTag === '' || q.topicTags.includes(filterTag))
-			.filter((q) => filterDifficulty === '' || q.hardness === filterDifficulty)
-			.filter((q) => q.title.toLowerCase().includes(searchTerm.toLowerCase()))
-			.offset(0)
-			.limit(100)
-			.toArray();
-	});
+		const { hasNext, questions } = await fetchQuestions(
+			filterParams,
+			page,
+			pageSize
+		);
+
+		hasMore = hasNext;
+		fetchedQuestions = questions;
+		page += Number(hasNext);
+	};
 
 	$: someQuestionSelected = Object.values(selectedQuestions).some(
 		(checked) => checked
@@ -48,13 +57,21 @@
 		const { difficulty, reviewDate } = event.detail;
 		console.log(event.detail);
 	}
+
+	$: questions = [...questions, ...fetchedQuestions];
 </script>
 
 <div class="flex flex-col gap-6 p-6 wrapper">
 	<TitleBar on:clearSelected={clearSelected} {someQuestionSelected} />
-	<SearchBar bind:searchTerm />
-	<Filters bind:filterDifficulty bind:filterTag />
-	<QuestionsList {questions} {selectedQuestions} on:change={handleChange} />
+	<SearchBar bind:searchTerm={filterParams.searchTerm} />
+	<Filters bind:hardness={filterParams.hardness} bind:tag={filterParams.tag} />
+	<QuestionsList
+		{questions}
+		{selectedQuestions}
+		{hasMore}
+		on:change={handleChange}
+		on:loadMore={fetchData}
+	/>
 	{#if someQuestionSelected}
 		<AddReviewForm on:save={handleAddReview} on:cancel={clearSelected} />
 	{/if}

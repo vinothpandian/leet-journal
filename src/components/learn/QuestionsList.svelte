@@ -2,16 +2,18 @@
 	import QuestionItem from '$components/learn/QuestionItem.svelte';
 	import IntersectionObserver from '$lib/IntersectionObserver.svelte';
 	import type { Question } from '$lib/types';
-	import type { Observable } from 'dexie';
 	import { createEventDispatcher } from 'svelte';
 	import type { QuestionState } from './types';
 
-	export let questions: Observable<Question[]>;
+	export let questions: Question[];
 
 	export let selectedQuestions: Record<string, boolean>;
 
+	export let hasMore: boolean = true;
+
 	const dispatch = createEventDispatcher<{
 		change: QuestionState;
+		loadMore: void;
 	}>();
 
 	const dispatchChange = (questionId: string, checked: boolean) => {
@@ -20,11 +22,15 @@
 			checked,
 		});
 	};
+
+	const dispatchLoadMore = () => {
+		dispatch('loadMore');
+	};
 </script>
 
 <ul class="flex-grow overflow-auto pb-4">
-	{#if $questions}
-		{#each $questions as { id, title, hardness, questionId } (id)}
+	{#if questions}
+		{#each questions as { id, title, hardness, questionId } (id)}
 			<QuestionItem
 				{title}
 				{hardness}
@@ -34,10 +40,12 @@
 				}}
 			/>
 		{/each}
-		<IntersectionObserver on:intersect={console.log}>
-			<li class="animate-pulse text-sm text-gray-500 pt-2">Loading...</li>
-		</IntersectionObserver>
-		{#if $questions.length === 0}
+		{#if hasMore}
+			<IntersectionObserver on:intersect={dispatchLoadMore}>
+				<li class="animate-pulse text-sm text-gray-500 pt-2">Loading...</li>
+			</IntersectionObserver>
+		{/if}
+		{#if questions.length === 0}
 			No such leet code question found. Clear filters or change your search...
 		{/if}
 	{:else}
