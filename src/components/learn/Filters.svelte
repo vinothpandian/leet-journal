@@ -13,12 +13,17 @@
 			return [];
 		}
 
-		console.log('Ran again');
-
 		return db.questions.toArray((qns) =>
 			[...new Set(qns.map((qn) => qn.topicTags).flat())].sort()
 		);
 	});
+
+	function resetFilters() {
+		filterDifficulty = '';
+		filterTag = '';
+	}
+
+	$: showClearButton = filterDifficulty === '' && filterTag === '';
 </script>
 
 <div class="flex justify-between items-center flex-wrap md:flex-nowrap">
@@ -48,11 +53,8 @@
 	<button
 		type="button"
 		class="btn btn-link btn-xs btn-square rounded"
-		on:click={() => {
-			filterDifficulty = '';
-			filterTag = '';
-		}}
-		class:hidden={filterDifficulty === '' && filterTag === ''}
+		on:click={resetFilters}
+		class:hidden={showClearButton}
 	>
 		<Clear />
 	</button>

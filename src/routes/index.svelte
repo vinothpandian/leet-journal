@@ -5,12 +5,12 @@
 	import QuestionsList from '$components/learn/QuestionsList.svelte';
 	import SearchBar from '$components/learn/SearchBar.svelte';
 	import TitleBar from '$components/learn/TitleBar.svelte';
+	import type { QuestionState } from '$components/learn/types';
 	import db from '$db/db';
-	import type { Difficulty, Question, QuestionHardness } from '$lib/types';
-	import { liveQuery, type Observable } from 'dexie';
+	import type { Difficulty, QuestionHardness } from '$lib/types';
+	import { liveQuery } from 'dexie';
 
 	let searchTerm: string = '';
-	let questions: Observable<Question[]>;
 
 	let filterDifficulty: QuestionHardness | '' = '';
 	let filterTag: QuestionHardness | '' = '';
@@ -41,9 +41,7 @@
 		selectedQuestions = {};
 	}
 
-	function handleChange(
-		event: CustomEvent<{ questionId: string; checked: boolean }>
-	) {
+	function handleChange(event: CustomEvent<QuestionState>) {
 		const { questionId, checked } = event.detail;
 		selectedQuestions[questionId] = checked;
 	}

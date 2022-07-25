@@ -1,8 +1,9 @@
 <script lang="ts">
-	import type { ChangeEvent, Question } from '$lib/types';
+	import type { ChangeEvent, QuestionHardness } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 
-	export let question: Question;
+	export let title: string = '';
+	export let hardness: QuestionHardness;
 	export let isQuestionChecked: boolean;
 	const dispatch = createEventDispatcher<{ change: { checked: boolean } }>();
 
@@ -25,14 +26,14 @@
 			<span
 				class="label-text flex flex-grow gap-2 justify-between px-2 items-center"
 			>
-				{question.title}
+				{title}
 				<span
 					class="badge badge-xs badge-outline text-[9px] rounded"
-					class:badge-success={question.hardness === 'easy'}
-					class:badge-warning={question.hardness === 'medium'}
-					class:badge-error={question.hardness === 'hard'}
+					class:badge-success={hardness === 'easy'}
+					class:badge-warning={hardness === 'medium'}
+					class:badge-error={hardness === 'hard'}
 				>
-					{question.hardness}
+					{hardness}
 				</span>
 			</span>
 		</label>

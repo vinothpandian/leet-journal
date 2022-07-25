@@ -3,16 +3,14 @@
 	import type { Question } from '$lib/types';
 	import type { Observable } from 'dexie';
 	import { createEventDispatcher } from 'svelte';
+	import type { QuestionState } from './types';
 
 	export let questions: Observable<Question[]>;
 
 	export let selectedQuestions: Record<string, boolean>;
 
 	const dispatch = createEventDispatcher<{
-		change: {
-			questionId: string;
-			checked: boolean;
-		};
+		change: QuestionState;
 	}>();
 
 	const dispatchChange = (questionId: string, checked: boolean) => {
@@ -25,12 +23,13 @@
 
 <ul class="flex-grow overflow-auto pb-4">
 	{#if $questions}
-		{#each $questions as question (question.id)}
+		{#each $questions as { id, title, hardness, questionId } (id)}
 			<QuestionItem
-				{question}
-				isQuestionChecked={selectedQuestions?.[question.questionId] ?? false}
+				{title}
+				{hardness}
+				isQuestionChecked={selectedQuestions?.[questionId] ?? false}
 				on:change={(event) => {
-					dispatchChange(question.questionId, event.detail.checked);
+					dispatchChange(questionId, event.detail.checked);
 				}}
 			/>
 		{/each}
