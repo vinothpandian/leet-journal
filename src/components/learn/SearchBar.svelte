@@ -6,6 +6,7 @@
 	let value: string = searchTerm;
 
 	$: {
+		// Debounce
 		setTimeout(() => {
 			searchTerm = value;
 		}, 500);
