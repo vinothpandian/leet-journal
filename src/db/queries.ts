@@ -1,11 +1,13 @@
 import db from './db';
 import type { QuestionFilterParams } from './types';
 
-export const fetchQuestions = async (
-	{ tag, hardness, searchTerm }: QuestionFilterParams,
-	page = 0,
-	pageSize = 25
-) =>
+export const fetchQuestions = async ({
+	tag,
+	hardness,
+	searchTerm,
+	page,
+	pageSize = 25,
+}: QuestionFilterParams) =>
 	db.transaction('r', db.questions, async () => {
 		const offset = page * pageSize;
 

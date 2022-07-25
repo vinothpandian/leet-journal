@@ -7,37 +7,35 @@
 	import TitleBar from '$components/learn/TitleBar.svelte';
 	import type { QuestionState, ReviewInfo } from '$components/learn/types';
 	import { fetchQuestions } from '$db/queries';
-	import type { QuestionFilterParams } from '$db/types';
-	import type { Question } from '$lib/types';
+	import type { Question, QuestionHardness } from '$lib/types';
 
 	let questions: Question[] = [];
 	let selectedQuestions: Record<string, boolean> = {};
 
-	let filterParams: QuestionFilterParams = {
-		searchTerm: '',
-		hardness: '',
-		tag: '',
-	};
+	let searchTerm: string = '';
+	let hardness: QuestionHardness | '' = '';
+	let tag: string = '';
+	let page: number = -1;
+	let pageSize: number = 25;
 
-	let page = 0;
-	const pageSize = 25;
 	let fetchedQuestions: Question[] = [];
 	let hasMore = true;
 
 	const fetchData = async () => {
-		if (!browser) {
+		if (!browser || page === -1) {
 			return null;
 		}
 
-		const { hasNext, questions } = await fetchQuestions(
-			filterParams,
+		const { hasNext, questions } = await fetchQuestions({
+			searchTerm,
+			hardness,
+			tag,
 			page,
-			pageSize
-		);
+			pageSize,
+		});
 
 		hasMore = hasNext;
 		fetchedQuestions = questions;
-		page += Number(hasNext);
 	};
 
 	$: someQuestionSelected = Object.values(selectedQuestions).some(
@@ -58,19 +56,30 @@
 		console.log(event.detail);
 	}
 
+	function reset() {
+		questions = [];
+		fetchedQuestions = [];
+		page = -1;
+	}
+
 	$: questions = [...questions, ...fetchedQuestions];
+
+	$: searchTerm, tag, hardness, reset();
+	$: page, fetchData();
 </script>
 
 <div class="flex flex-col gap-6 p-6 wrapper">
 	<TitleBar on:clearSelected={clearSelected} {someQuestionSelected} />
-	<SearchBar bind:searchTerm={filterParams.searchTerm} />
-	<Filters bind:hardness={filterParams.hardness} bind:tag={filterParams.tag} />
+	<SearchBar bind:searchTerm />
+	<Filters bind:hardness bind:tag />
 	<QuestionsList
 		{questions}
 		{selectedQuestions}
 		{hasMore}
 		on:change={handleChange}
-		on:loadMore={fetchData}
+		on:loadMore={() => {
+			page += 1;
+		}}
 	/>
 	{#if someQuestionSelected}
 		<AddReviewForm on:save={handleAddReview} on:cancel={clearSelected} />
