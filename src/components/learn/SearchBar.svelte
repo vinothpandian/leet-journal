@@ -2,15 +2,23 @@
 	import Search from '$icons/Search.svelte';
 
 	export let searchTerm: string = '';
+
+	let value: string = searchTerm;
+
+	$: {
+		setTimeout(() => {
+			searchTerm = value;
+		}, 500);
+	}
 </script>
 
 <div class="form-control">
 	<div class="flex input-group">
 		<input
 			type="text"
-			placeholder="Search…"
+			placeholder="Search by qustion name…"
 			class="input input-sm input-bordered flex-grow"
-			bind:value={searchTerm}
+			bind:value
 		/>
 		<button class="btn btn-sm btn-square">
 			<Search />

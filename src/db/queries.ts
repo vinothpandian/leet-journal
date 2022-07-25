@@ -20,7 +20,7 @@ export const fetchQuestions = async ({
 		const questions = await query.offset(offset).limit(pageSize).toArray();
 
 		const totalPages = Math.floor(count / pageSize);
-		const hasNext = page <= totalPages;
+		const hasNext = count !== 0 && page < totalPages;
 
 		return {
 			totalPages,

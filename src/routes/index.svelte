@@ -35,6 +35,10 @@
 		});
 
 		hasMore = hasNext;
+		console.log(
+			'🚀 ~ file: index.svelte ~ line 38 ~ fetchData ~ hasNext',
+			hasNext
+		);
 		fetchedQuestions = questions;
 	};
 
