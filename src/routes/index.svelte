@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/env';
 	import Filters from '$components/learn/Filters.svelte';
-	import QuestionItem from '$components/learn/QuestionItem.svelte';
+	import QuestionsList from '$components/learn/QuestionsList.svelte';
 	import SearchBar from '$components/learn/SearchBar.svelte';
 	import TitleBar from '$components/learn/TitleBar.svelte';
 	import db from '$db/db';
@@ -40,27 +40,20 @@
 	function clearSelected() {
 		selectedQuestions = {};
 	}
+
+	function handleChange(
+		event: CustomEvent<{ questionId: string; checked: boolean }>
+	) {
+		const { questionId, checked } = event.detail;
+		selectedQuestions[questionId] = checked;
+	}
 </script>
 
 <div class="flex flex-col gap-6 p-6 content">
 	<TitleBar on:clearSelected={clearSelected} {someQuestionSelected} />
 	<SearchBar bind:searchTerm />
 	<Filters bind:filterDifficulty bind:filterTag />
-	<ul class="flex-grow overflow-auto pb-4">
-		{#if $questions}
-			{#each $questions as question (question.id)}
-				<QuestionItem
-					{question}
-					isQuestionChecked={selectedQuestions?.[question.questionId] ?? false}
-					on:change={(event) => {
-						selectedQuestions[question.questionId] = event.detail.checked;
-					}}
-				/>
-			{/each}
-		{:else}
-			Loading...
-		{/if}
-	</ul>
+	<QuestionsList {questions} {selectedQuestions} on:change={handleChange} />
 	{#if someQuestionSelected}
 		<div
 			in:fly={{ y: 200, duration: 500 }}
