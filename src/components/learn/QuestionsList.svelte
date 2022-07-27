@@ -32,10 +32,11 @@
 
 <ul class="flex-grow overflow-auto pb-4">
 	{#if questions}
-		{#each questions as { id, title, hardness }}
+		{#each questions as { id, title, titleSlug, hardness }}
 			<QuestionItem
 				{title}
 				{hardness}
+				{titleSlug}
 				isQuestionChecked={selectedQuestions?.[id] ?? false}
 				on:change={(event) => {
 					dispatchChange(id, event.detail.checked);

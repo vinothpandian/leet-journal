@@ -1,8 +1,10 @@
 <script lang="ts">
+	import Link from '$icons/Link.svelte';
 	import type { ChangeEvent, QuestionHardness } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 
 	export let title: string = '';
+	export let titleSlug: string = '';
 	export let hardness: QuestionHardness;
 	export let isQuestionChecked: boolean;
 	const dispatch = createEventDispatcher<{ change: { checked: boolean } }>();
@@ -26,14 +28,24 @@
 			<span
 				class="label-text flex flex-grow gap-2 justify-between px-2 items-center"
 			>
-				{title}
-				<span
-					class="badge badge-xs badge-outline text-[9px] rounded"
-					class:badge-success={hardness === 'easy'}
-					class:badge-warning={hardness === 'medium'}
-					class:badge-error={hardness === 'hard'}
-				>
-					{hardness}
+				<span>{title}</span>
+				<span class="flex flex-row gap-2 items-center">
+					<span
+						class="badge badge-xs badge-outline text-[9px] rounded"
+						class:badge-success={hardness === 'easy'}
+						class:badge-warning={hardness === 'medium'}
+						class:badge-error={hardness === 'hard'}
+					>
+						{hardness}
+					</span>
+					<a
+						class="text-blue-500"
+						target="_blank"
+						rel="noopener noreferrer"
+						href={`https://leetcode.com/problems/${titleSlug}/`}
+					>
+						<Link />
+					</a>
 				</span>
 			</span>
 		</label>

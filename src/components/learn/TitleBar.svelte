@@ -10,7 +10,7 @@
 </script>
 
 <div class="flex justify-between">
-	<h6>Leetcode Questions</h6>
+	<h6 class="font-bold">Problems</h6>
 	<button
 		type="button"
 		class="btn btn-xs"
