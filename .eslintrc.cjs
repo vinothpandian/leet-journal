@@ -28,9 +28,6 @@ module.exports = {
 		'import/prefer-default-export': 'off',
 		'no-restricted-exports': 'off',
 		'import/extensions': 'off',
-		'import/no-extraneous-dependencies': [
-			'error',
-			{ devDependencies: ['src/store/*.ts'] },
-		],
+		'import/no-extraneous-dependencies': 'off',
 	},
 };
