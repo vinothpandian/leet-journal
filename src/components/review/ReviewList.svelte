@@ -1,13 +1,11 @@
 <script lang="ts">
-	import QuestionItem from '$components/learn/QuestionItem.svelte';
 	import IntersectionObserver from '$lib/IntersectionObserver.svelte';
 	import type { Question } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
+	import ReviewItem from './ReviewItem.svelte';
 	import type { QuestionState } from './types';
 
 	export let questions: Question[];
-
-	export let selectedQuestions: Record<string, boolean>;
 
 	export let hasMore: boolean = true;
 
@@ -32,11 +30,11 @@
 
 <ul class="flex-grow overflow-auto pb-4">
 	{#if questions}
-		{#each questions as { id, title, hardness }}
-			<QuestionItem
+		{#each questions as { id, title, hardness, reviewFrequency }}
+			<ReviewItem
 				{title}
 				{hardness}
-				isQuestionChecked={selectedQuestions?.[id] ?? false}
+				{reviewFrequency}
 				on:change={(event) => {
 					dispatchChange(id, event.detail.checked);
 				}}

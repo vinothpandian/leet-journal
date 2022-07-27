@@ -22,25 +22,19 @@ export interface RawQuestion {
 }
 
 export type QuestionHardness = 'easy' | 'medium' | 'hard';
+export type ReviewDate = number;
+export type Difficulty = 1 | 2 | 3 | 4 | 5;
 
 export interface Question {
-	id?: number;
+	id: number;
 	questionId: string;
 	categoryTitle: string;
 	hardness: QuestionHardness;
 	title: string;
 	titleSlug: string;
 	topicTags: string[];
-}
-
-export type ReviewDate = number;
-
-export type Difficulty = 1 | 2 | 3 | 4 | 5;
-
-export interface Review {
-	id?: number;
-	questionId: string; // linked to: Question.questionId
-	date: ReviewDate; // Ecmascript epoch
+	reviewDate: ReviewDate; // Ecmascript epoch
+	reviewFrequency: number;
 	difficulty: Difficulty; // 1 -> very easy to 5 -> very difficult
 	notes: string;
 	history: Record<ReviewDate, Difficulty>;

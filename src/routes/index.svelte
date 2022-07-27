@@ -10,7 +10,7 @@
 	import type { Question, QuestionHardness } from '$lib/types';
 
 	let questions: Question[] = [];
-	let selectedQuestions: Record<string, boolean> = {};
+	let selectedQuestions: Record<number, boolean> = {};
 
 	let searchTerm: string = '';
 	let hardness: QuestionHardness | '' = '';
@@ -53,7 +53,7 @@
 
 	async function handleAddReview(event: CustomEvent<ReviewInfo>) {
 		const { difficulty, reviewDate } = event.detail;
-		const questionIds = Object.keys(selectedQuestions);
+		const questionIds = Object.keys(selectedQuestions).map((id) => Number(id));
 		await addReviews(reviewDate, difficulty, questionIds);
 	}
 

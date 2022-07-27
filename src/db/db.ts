@@ -1,23 +1,14 @@
 import Dexie from 'dexie';
-import type {
-	Question,
-	QuestionHardness,
-	RawQuestion,
-	Review,
-} from '../lib/types';
-
-Dexie.debug = true;
+import type { Question, QuestionHardness, RawQuestion } from '../lib/types';
 
 export class LeetJournalDb extends Dexie {
 	questions!: Dexie.Table<Question, number>;
 
-	reviews!: Dexie.Table<Review, number>;
-
 	constructor() {
 		super('LeetJournalDb');
 		this.version(1).stores({
-			questions: '++id, questionId, difficulty, title, titleSlug, topicTags',
-			reviews: '++id, questionId, date, difficulty',
+			questions:
+				'id, title, hardness, topicTags, reviewDate, reviewFrequency, difficulty',
 		});
 
 		this.on('ready', () => this.ready());
@@ -45,6 +36,11 @@ export class LeetJournalDb extends Dexie {
 			topicTags: rawQuestion.topicTags
 				.split(';')
 				.filter((question) => question),
+			difficulty: 3,
+			reviewDate: 0,
+			reviewFrequency: 0,
+			history: {},
+			notes: '',
 		}));
 
 		this.questions.bulkAdd(questions);
