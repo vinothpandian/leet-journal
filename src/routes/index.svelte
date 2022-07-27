@@ -6,7 +6,7 @@
 	import SearchBar from '$components/learn/SearchBar.svelte';
 	import TitleBar from '$components/learn/TitleBar.svelte';
 	import type { QuestionState, ReviewInfo } from '$components/learn/types';
-	import { fetchQuestions } from '$db/queries';
+	import { addReviews, fetchQuestions } from '$db/queries';
 	import type { Question, QuestionHardness } from '$lib/types';
 
 	let questions: Question[] = [];
@@ -35,10 +35,6 @@
 		});
 
 		hasMore = hasNext;
-		console.log(
-			'🚀 ~ file: index.svelte ~ line 38 ~ fetchData ~ hasNext',
-			hasNext
-		);
 		fetchedQuestions = questions;
 	};
 
@@ -55,9 +51,14 @@
 		selectedQuestions[questionId] = checked;
 	}
 
-	function handleAddReview(event: CustomEvent<ReviewInfo>) {
+	async function handleAddReview(event: CustomEvent<ReviewInfo>) {
 		const { difficulty, reviewDate } = event.detail;
-		console.log(event.detail);
+		const questionIds = Object.keys(selectedQuestions);
+		await addReviews(reviewDate, difficulty, questionIds);
+	}
+
+	function handleLoadMore() {
+		page += 1;
 	}
 
 	function reset() {
@@ -82,12 +83,10 @@
 		{selectedQuestions}
 		{hasMore}
 		on:change={handleChange}
-		on:loadMore={() => {
-			page += 1;
-		}}
+		on:loadMore={handleLoadMore}
 	/>
 	{#if someQuestionSelected}
-		<AddReviewForm on:save={handleAddReview} on:cancel={clearSelected} />
+		<AddReviewForm on:save={handleAddReview} />
 	{/if}
 </div>
 

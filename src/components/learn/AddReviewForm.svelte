@@ -9,13 +9,8 @@
 	export let reviewDate = dayjs().format('YYYY-MM-DD');
 
 	const dispatch = createEventDispatcher<{
-		cancel: void;
 		save: ReviewInfo;
 	}>();
-
-	function handleCancel() {
-		dispatch('cancel');
-	}
 
 	function handleSave() {
 		dispatch('save', {
@@ -29,7 +24,9 @@
 	in:fly={{ y: 200, duration: 500 }}
 	class="min-h-[11rem] h-44 border-t border-gray-300 flex flex-col gap-4 p-4"
 >
-	<h1 class="text-md font-bold">Add to review</h1>
+	<div class="flex justify-between">
+		<h1 class="text-md font-bold">Add to review</h1>
+	</div>
 	<div class="flex gap-2 items-center">
 		<span>Completed on: </span>
 		<input type="date" bind:value={reviewDate} />
@@ -52,9 +49,6 @@
 	</div>
 
 	<div class="flex justify-end gap-4">
-		<button class="btn btn-sm btn-outline btn-error" on:click={handleCancel}
-			>Cancel</button
-		>
 		<button class="btn btn-sm" on:click={handleSave}>Save</button>
 	</div>
 </div>

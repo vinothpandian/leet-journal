@@ -6,6 +6,8 @@ import type {
 	Review,
 } from '../lib/types';
 
+Dexie.debug = true;
+
 export class LeetJournalDb extends Dexie {
 	questions!: Dexie.Table<Question, number>;
 
@@ -15,7 +17,7 @@ export class LeetJournalDb extends Dexie {
 		super('LeetJournalDb');
 		this.version(1).stores({
 			questions: '++id, questionId, difficulty, title, titleSlug, topicTags',
-			reviews: '++id, quesitionId, date, difficulty',
+			reviews: '++id, questionId, date, difficulty',
 		});
 
 		this.on('ready', () => this.ready());

@@ -39,7 +39,7 @@ export type Difficulty = 1 | 2 | 3 | 4 | 5;
 
 export interface Review {
 	id?: number;
-	quesitionId: number; // foreign key: question id
+	questionId: string; // linked to: Question.questionId
 	date: ReviewDate; // Ecmascript epoch
 	difficulty: Difficulty; // 1 -> very easy to 5 -> very difficult
 	notes: string;

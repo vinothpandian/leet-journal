@@ -1,3 +1,4 @@
+import type { Difficulty, Review, ReviewDate } from '$lib/types';
 import db from './db';
 import type { QuestionFilterParams } from './types';
 
@@ -27,4 +28,47 @@ export const fetchQuestions = async ({
 			hasNext,
 			questions,
 		};
+	});
+
+export const addReviews = async (
+	reviewDate: ReviewDate,
+	difficulty: Difficulty,
+	questionIds: string[]
+) =>
+	db.transaction('rw', db.reviews, async () => {
+		const existingReviews = await db.reviews
+			.where('questionId')
+			.anyOf(questionIds)
+			.toArray();
+
+		const questionidsToUpdateReviews = existingReviews.map(
+			(review) => review.questionId
+		);
+
+		const questionIdsToCreateReviews = questionIds.filter(
+			(id) => !questionidsToUpdateReviews.includes(id)
+		);
+
+		const reviewsToCreate: Review[] = questionIdsToCreateReviews.map(
+			(questionId: string) => ({
+				date: reviewDate,
+				difficulty,
+				history: {},
+				notes: '',
+				questionId,
+			})
+		);
+
+		const reviewsToUpdate: Review[] = existingReviews.map((review) => ({
+			...review,
+			history: {
+				...review.history,
+				[review.date]: review.difficulty,
+			},
+			date: reviewDate,
+			difficulty,
+		}));
+
+		db.reviews.bulkAdd(reviewsToCreate);
+		db.reviews.bulkPut(reviewsToUpdate);
 	});

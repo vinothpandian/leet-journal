@@ -48,8 +48,15 @@
 					<li class="animate-pulse text-sm text-gray-500 pt-2">Loading...</li>
 				</IntersectionObserver>
 			{/key}
+		{:else}
+			<div class="flex flex-col justify-center items-center gap-4 p-8">
+				<h1 class="text-lg text-gray-400">No leet code questions found</h1>
+				<p class="text-sm text-gray-500">
+					Clear filters or change your search...
+				</p>
+			</div>
 		{/if}
 	{:else}
-		No such leet code question found. Clear filters or change your search...
+		<span class="animate-pulse text-sm text-gray-500 pt-2">Loading...</span>
 	{/if}
 </ul>
