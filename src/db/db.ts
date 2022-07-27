@@ -8,7 +8,7 @@ export class LeetJournalDb extends Dexie {
 		super('LeetJournalDb');
 		this.version(1).stores({
 			questions:
-				'id, title, hardness, topicTags, reviewDate, reviewFrequency, difficulty',
+				'&id, &title, hardness, topicTags, reviewDate, reviewFrequency, difficulty',
 		});
 
 		this.on('ready', () => this.ready());
