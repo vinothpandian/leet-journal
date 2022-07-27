@@ -1,16 +1,14 @@
 <script lang="ts">
 	import { browser } from '$app/env';
-	import AddReviewForm from '$components/learn/AddReviewForm.svelte';
 	import Filters from '$components/learn/Filters.svelte';
-	import QuestionsList from '$components/learn/QuestionsList.svelte';
 	import SearchBar from '$components/learn/SearchBar.svelte';
-	import TitleBar from '$components/learn/TitleBar.svelte';
 	import type { QuestionState, ReviewInfo } from '$components/learn/types';
-	import { addReviews, fetchQuestions } from '$db/queries';
+	import ReviewList from '$components/review/ReviewList.svelte';
+	import { addReviews, fetchReviews } from '$db/queries';
 	import type { Question, QuestionHardness } from '$lib/types';
 
 	let questions: Question[] = [];
-	let selectedQuestions: Record<number, boolean> = {};
+	let selectedQuestions: Record<string, boolean> = {};
 
 	let searchTerm: string = '';
 	let hardness: QuestionHardness | '' = '';
@@ -26,7 +24,7 @@
 			return null;
 		}
 
-		const { hasNext, questions } = await fetchQuestions({
+		const { hasNext, questions } = await fetchReviews({
 			searchTerm,
 			hardness,
 			tag,
@@ -53,7 +51,7 @@
 
 	async function handleAddReview(event: CustomEvent<ReviewInfo>) {
 		const { difficulty, reviewDate } = event.detail;
-		const questionIds = Object.keys(selectedQuestions).map((id) => Number(id));
+		const questionIds = Object.keys(selectedQuestions);
 		await addReviews(reviewDate, difficulty, questionIds);
 	}
 
@@ -75,19 +73,18 @@
 </script>
 
 <div class="flex flex-col gap-6 p-6 wrapper">
-	<TitleBar on:clearSelected={clearSelected} {someQuestionSelected} />
+	<div class="flex justify-between">
+		<h6>To Review</h6>
+	</div>
 	<SearchBar bind:searchTerm />
 	<Filters bind:hardness bind:tag />
-	<QuestionsList
+	<ReviewList
 		{questions}
 		{selectedQuestions}
 		{hasMore}
 		on:change={handleChange}
 		on:loadMore={handleLoadMore}
 	/>
-	{#if someQuestionSelected}
-		<AddReviewForm on:save={handleAddReview} />
-	{/if}
 </div>
 
 <style>
