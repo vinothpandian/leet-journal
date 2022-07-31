@@ -1,49 +1,41 @@
 import Dexie from 'dexie';
-import type { Question, QuestionHardness, RawQuestion } from '../lib/types';
+import type { Hardness, Problem, RawProblem } from '../lib/types';
 
 export class LeetJournalDb extends Dexie {
-	questions!: Dexie.Table<Question, number>;
+	problems!: Dexie.Table<Problem, number>;
 
 	constructor() {
 		super('LeetJournalDb');
 		this.version(1).stores({
-			questions:
-				'&id, &title, hardness, topicTags, reviewDate, reviewFrequency, difficulty',
+			problems: '&id, &title, hardness, topicTags',
 		});
 
 		this.on('ready', () => this.ready());
 	}
 
 	async ready() {
-		const questionsCount = await this.questions.count();
+		const problemsCount = await this.problems.count();
 
-		if (questionsCount > 0) {
-			// eslint-disable-next-line no-console
-			console.info('Already populated questions');
+		if (problemsCount > 0) {
 			return;
 		}
 
-		const data = await fetch(`${window.location.origin}/questions.json`);
-		const rawQuestions: RawQuestion[] = await data.json();
+		const data = await fetch(`${window.location.origin}/problems.json`);
+		const rawProblems: RawProblem[] = await data.json();
 
-		const questions: Question[] = rawQuestions.map((rawQuestion, index) => ({
+		const problems: Problem[] = rawProblems.map((rawProblem, index) => ({
 			id: index,
-			questionId: rawQuestion.questionId,
-			categoryTitle: rawQuestion.categoryTitle,
-			hardness: rawQuestion.difficulty.toLowerCase() as QuestionHardness,
-			title: rawQuestion.title,
-			titleSlug: rawQuestion.titleSlug,
-			topicTags: rawQuestion.topicTags
-				.split(';')
-				.filter((question) => question),
-			difficulty: 3,
-			reviewDate: 0,
-			reviewFrequency: 0,
-			history: {},
+			leetCodeId: rawProblem.questionId,
+			categoryTitle: rawProblem.categoryTitle,
+			hardness: rawProblem.difficulty.toLowerCase() as Hardness,
+			title: rawProblem.title,
+			titleSlug: rawProblem.titleSlug,
+			topicTags: rawProblem.topicTags.split(';').filter((tag) => tag),
 			notes: '',
+			reviews: [],
 		}));
 
-		this.questions.bulkAdd(questions);
+		this.problems.bulkAdd(problems);
 	}
 }
 

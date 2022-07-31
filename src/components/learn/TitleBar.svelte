@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
-	export let someQuestionSelected = false;
+	export let someProblemSelected = false;
 	const dispatch = createEventDispatcher();
 
 	function clearSelected() {
@@ -15,7 +15,7 @@
 		type="button"
 		class="btn btn-xs"
 		on:click={clearSelected}
-		disabled={!someQuestionSelected}
+		disabled={!someProblemSelected}
 	>
 		Clear Selected
 	</button>

@@ -2,18 +2,18 @@
 	import { browser } from '$app/env';
 	import db from '$db/db';
 	import Clear from '$icons/Clear.svelte';
-	import type { QuestionHardness } from '$lib/types';
+	import type { Hardness } from '$lib/types';
 	import { liveQuery } from 'dexie';
 
-	export let hardness: QuestionHardness | '' = '';
+	export let hardness: Hardness | '' = '';
 	export let tag: string = '';
 
-	$: questionTypes = liveQuery(async () => {
+	$: problemTypes = liveQuery(async () => {
 		if (!browser) {
 			return [];
 		}
 
-		return db.questions.toArray((qns) =>
+		return db.problems.toArray((qns) =>
 			[...new Set(qns.map((qn) => qn.topicTags).flat())].sort()
 		);
 	});
@@ -39,9 +39,9 @@
 		</select>
 		<select bind:value={tag} class="select select-xs min-w-full md:min-w-min">
 			<option value="" selected>Select Tags</option>
-			{#if $questionTypes}
-				{#each $questionTypes as questionType}
-					<option value={questionType}>{questionType}</option>
+			{#if $problemTypes}
+				{#each $problemTypes as problemType}
+					<option value={problemType}>{problemType}</option>
 				{/each}
 			{/if}
 		</select>

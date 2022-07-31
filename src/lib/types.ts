@@ -1,7 +1,7 @@
 export type WithTarget<Event, Target> = Event & { currentTarget: Target };
 export type ChangeEvent = WithTarget<Event, HTMLInputElement>;
 
-export interface RawQuestion {
+export interface RawProblem {
 	questionId: string;
 	title: string;
 	titleSlug: string;
@@ -21,21 +21,23 @@ export interface RawQuestion {
 	totalSubmission: number;
 }
 
-export type QuestionHardness = 'easy' | 'medium' | 'hard';
-export type ReviewDate = number;
+export type Hardness = 'easy' | 'medium' | 'hard';
+export type ReviewDate = string;
 export type Difficulty = 1 | 2 | 3 | 4 | 5;
 
-export interface Question {
+export interface Review {
+	reviewDate: ReviewDate; // ISO string
+	difficulty: Difficulty;
+}
+
+export interface Problem {
 	id: number;
-	questionId: string;
+	leetCodeId: string;
 	categoryTitle: string;
-	hardness: QuestionHardness;
+	hardness: Hardness;
 	title: string;
 	titleSlug: string;
 	topicTags: string[];
-	reviewDate: ReviewDate; // Ecmascript epoch
-	reviewFrequency: number;
-	difficulty: Difficulty; // 1 -> very easy to 5 -> very difficult
 	notes: string;
-	history: Record<ReviewDate, Difficulty>;
+	reviews: Review[];
 }

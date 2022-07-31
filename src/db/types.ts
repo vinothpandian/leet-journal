@@ -1,8 +1,8 @@
-import type { QuestionHardness } from '$lib/types';
+import type { Hardness } from '$lib/types';
 
-export interface QuestionFilterParams {
+export interface FilterParams {
 	tag: string;
-	hardness: QuestionHardness | '';
+	hardness: Hardness | '';
 	searchTerm: string;
 	page: number;
 	pageSize?: number;

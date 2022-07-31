@@ -1,7 +1,7 @@
 import type { Difficulty } from '$lib/types';
 
-export interface QuestionState {
-	questionId: number;
+export interface ProblemState {
+	problemId: number;
 	checked: boolean;
 }
 

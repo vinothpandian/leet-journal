@@ -1,96 +1,65 @@
 <script lang="ts">
-	import toast from 'svelte-french-toast';
-
-	import { browser } from '$app/env';
-	import AddReviewForm from '$components/learn/AddReviewForm.svelte';
 	import Filters from '$components/learn/Filters.svelte';
-	import QuestionsList from '$components/learn/QuestionsList.svelte';
+	import ProblemsList from '$components/learn/ProblemsList.svelte';
 	import SearchBar from '$components/learn/SearchBar.svelte';
 	import TitleBar from '$components/learn/TitleBar.svelte';
-	import type { QuestionState, ReviewInfo } from '$components/learn/types';
-	import { addReviews, fetchQuestions } from '$db/queries';
-	import type { Question, QuestionHardness } from '$lib/types';
+	import type { ProblemState, ReviewInfo } from '$components/learn/types';
+	import type { Hardness } from '$lib/types';
+	import {
+		hasMoreProblems,
+		loadNextPage,
+		problems,
+		updateFilters,
+	} from '$store/problems';
 
-	let questions: Question[] = [];
-	let selectedQuestions: Record<number, boolean> = {};
+	let selectedProblems: Record<number, boolean> = {};
 
 	let searchTerm: string = '';
-	let hardness: QuestionHardness | '' = '';
+	let hardness: Hardness | '' = '';
 	let tag: string = '';
-	let page: number = -1;
-	let pageSize: number = 25;
 
-	let fetchedQuestions: Question[] = [];
-	let hasMore = true;
+	let showReviewPopup = false;
 
-	const fetchData = async () => {
-		if (!browser || page === -1) {
-			return null;
-		}
-
-		const { hasNext, questions } = await fetchQuestions({
-			searchTerm,
-			hardness,
-			tag,
-			page,
-			pageSize,
-		});
-
-		hasMore = hasNext;
-		fetchedQuestions = questions;
-	};
-
-	$: someQuestionSelected = Object.values(selectedQuestions).some(
+	$: someProblemSelected = Object.values(selectedProblems).some(
 		(checked) => checked
 	);
 
+	$: someProblemSelected, (showReviewPopup = true);
+
 	function clearSelected() {
-		selectedQuestions = {};
+		selectedProblems = {};
 	}
 
-	function handleChange(event: CustomEvent<QuestionState>) {
-		const { questionId, checked } = event.detail;
-		selectedQuestions[questionId] = checked;
+	function handleChange(event: CustomEvent<ProblemState>) {
+		const { problemId, checked } = event.detail;
+		selectedProblems[problemId] = checked;
 	}
 
 	async function handleAddReview(event: CustomEvent<ReviewInfo>) {
 		const { difficulty, reviewDate } = event.detail;
-		const questionIds = Object.keys(selectedQuestions).map((id) => Number(id));
-		await addReviews(reviewDate, difficulty, questionIds);
-		toast.success('Reviews added..');
+		const problemIds = Object.keys(selectedProblems).map((id) => Number(id));
+		showReviewPopup = false;
+		// await addReviews(reviewDate, difficulty, problemIds);
+		// toast.success('Reviews added..');
 	}
 
-	function handleLoadMore() {
-		page += 1;
-	}
-
-	function reset() {
-		questions = [];
-		fetchedQuestions = [];
-		hasMore = true;
-		page = -1;
-	}
-
-	$: questions = [...questions, ...fetchedQuestions];
-
-	$: searchTerm, tag, hardness, reset();
-	$: page, fetchData();
+	$: searchTerm, tag, hardness, updateFilters({ searchTerm, tag, hardness });
 </script>
 
 <div class="flex flex-col gap-6 p-6 wrapper">
-	<TitleBar on:clearSelected={clearSelected} {someQuestionSelected} />
+	<TitleBar on:clearSelected={clearSelected} />
 	<SearchBar bind:searchTerm />
 	<Filters bind:hardness bind:tag />
-	<QuestionsList
-		{questions}
-		{selectedQuestions}
-		{hasMore}
+	<ProblemsList
+		problems={$problems}
+		{selectedProblems}
+		hasMore={$hasMoreProblems}
 		on:change={handleChange}
-		on:loadMore={handleLoadMore}
+		on:loadMore={loadNextPage}
 	/>
-	{#if someQuestionSelected}
+	<!-- {#if showReviewPopup}
 		<AddReviewForm on:save={handleAddReview} />
-	{/if}
+	{/if} -->
 </div>
 
 <style>

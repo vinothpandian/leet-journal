@@ -15,7 +15,8 @@
 			"$lib": ["src/lib"],
 			"$lib/*": ["src/lib/*"],
 			"$db/*": ["src/db/*"],
-			"$store/*": ["src/store/*"]
+			"$store/*": ["src/store/*"],
+			"$constants": ["src/constants.ts"]
 		}
 	}
 }

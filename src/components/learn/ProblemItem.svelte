@@ -1,12 +1,12 @@
 <script lang="ts">
 	import Link from '$icons/Link.svelte';
-	import type { ChangeEvent, QuestionHardness } from '$lib/types';
+	import type { ChangeEvent, Hardness } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 
 	export let title: string = '';
 	export let titleSlug: string = '';
-	export let hardness: QuestionHardness;
-	export let isQuestionChecked: boolean;
+	export let hardness: Hardness;
+	export let isProblemChecked: boolean;
 	const dispatch = createEventDispatcher<{ change: { checked: boolean } }>();
 
 	function handleChange(event: ChangeEvent) {
@@ -21,7 +21,7 @@
 		<label class="label cursor-pointer gap-2 justify-start">
 			<input
 				type="checkbox"
-				checked={isQuestionChecked}
+				checked={isProblemChecked}
 				on:change={handleChange}
 				class="checkbox checkbox-primary"
 			/>
