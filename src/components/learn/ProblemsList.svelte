@@ -9,7 +9,7 @@
 
 	export let selectedProblems: Record<string, boolean>;
 
-	export let hasMore: boolean = true;
+	export let hasMore: boolean;
 
 	const dispatch = createEventDispatcher<{
 		change: ProblemState;

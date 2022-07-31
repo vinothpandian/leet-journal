@@ -2,15 +2,17 @@ import type { Difficulty, Problem, ReviewDate } from '$lib/types';
 import db from './db';
 import type { FilterParams } from './types';
 
-export const fetchProblems = async (
-	{ tag, hardness, searchTerm, page, pageSize = 25 }: FilterParams,
-	onlyReviewed = false
-) =>
+export const fetchProblems = async ({
+	tag,
+	hardness,
+	searchTerm,
+	page,
+	pageSize = 25,
+}: FilterParams) =>
 	db.transaction('r', db.problems, async () => {
 		const offset = page * pageSize;
 
 		const query = db.problems
-			.filter((p) => onlyReviewed && p.reviews.length > 0)
 			.filter((p) => tag === '' || p.topicTags.includes(tag))
 			.filter((p) => hardness === '' || p.hardness === hardness)
 			.filter((p) => p.title.toLowerCase().includes(searchTerm.toLowerCase()));

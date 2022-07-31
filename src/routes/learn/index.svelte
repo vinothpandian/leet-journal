@@ -20,12 +20,6 @@
 
 	let showReviewPopup = false;
 
-	$: someProblemSelected = Object.values(selectedProblems).some(
-		(checked) => checked
-	);
-
-	$: someProblemSelected, (showReviewPopup = true);
-
 	function clearSelected() {
 		selectedProblems = {};
 	}
@@ -42,6 +36,12 @@
 		// await addReviews(reviewDate, difficulty, problemIds);
 		// toast.success('Reviews added..');
 	}
+
+	$: someProblemSelected = Object.values(selectedProblems).some(
+		(checked) => checked
+	);
+
+	$: someProblemSelected, (showReviewPopup = true);
 
 	$: searchTerm, tag, hardness, updateFilters({ searchTerm, tag, hardness });
 </script>
