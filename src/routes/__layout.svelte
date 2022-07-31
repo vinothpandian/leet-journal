@@ -27,4 +27,9 @@
 		{/if}
 	</MediaQuery>
 </main>
-<Toaster toastOptions={{ position: 'bottom-center' }} />
+<Toaster
+	toastOptions={{
+		position: 'bottom-center',
+		style: 'background: rgb(24, 26, 42); color: #fff;',
+	}}
+/>
