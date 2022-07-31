@@ -1,6 +1,7 @@
-<script>
+<script lang="ts">
 	import Navbar from '$components/common/Navbar.svelte';
 	import SidebarNavigation from '$components/common/SidebarNavigation.svelte';
+	import { Toaster } from 'svelte-french-toast';
 
 	import MediaQuery from '$lib/MediaQuery.svelte';
 
@@ -26,3 +27,4 @@
 		{/if}
 	</MediaQuery>
 </main>
+<Toaster toastOptions={{ position: 'bottom-center' }} />

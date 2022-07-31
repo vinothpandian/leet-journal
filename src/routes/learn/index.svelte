@@ -1,4 +1,6 @@
 <script lang="ts">
+	import toast from 'svelte-french-toast';
+
 	import { browser } from '$app/env';
 	import AddReviewForm from '$components/learn/AddReviewForm.svelte';
 	import Filters from '$components/learn/Filters.svelte';
@@ -55,6 +57,7 @@
 		const { difficulty, reviewDate } = event.detail;
 		const questionIds = Object.keys(selectedQuestions).map((id) => Number(id));
 		await addReviews(reviewDate, difficulty, questionIds);
+		toast.success('Reviews added..');
 	}
 
 	function handleLoadMore() {
