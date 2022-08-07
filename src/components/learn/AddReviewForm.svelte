@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Clear from '$icons/Clear.svelte';
 	import type { Difficulty } from '$lib/types';
 	import dayjs from 'dayjs';
 	import { createEventDispatcher } from 'svelte';
@@ -10,22 +11,34 @@
 
 	const dispatch = createEventDispatcher<{
 		save: ReviewInfo;
+		close: void;
 	}>();
 
 	function handleSave() {
 		dispatch('save', {
 			difficulty,
-			reviewDate: dayjs(reviewDate).unix(),
+			reviewDate: dayjs(reviewDate).toISOString(),
 		});
+	}
+
+	function handleClose() {
+		dispatch('close');
 	}
 </script>
 
 <div
 	in:fly={{ y: 200, duration: 500 }}
+	out:fly={{ y: 200, duration: 200 }}
 	class="min-h-[11rem] h-44 border-t border-gray-300 flex flex-col gap-4 p-4"
 >
 	<div class="flex justify-between">
 		<h1 class="text-md font-bold">Add to review</h1>
+		<button
+			class="btn btn-link btn-xs btn-square rounded"
+			on:click={handleClose}
+		>
+			<Clear />
+		</button>
 	</div>
 	<div class="flex gap-2 items-center">
 		<span>Completed on: </span>

@@ -7,5 +7,5 @@ export interface ProblemState {
 
 export interface ReviewInfo {
 	difficulty: Difficulty;
-	reviewDate: number;
+	reviewDate: string;
 }
