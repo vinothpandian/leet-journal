@@ -44,6 +44,10 @@ export const updateFilters = async ({
 	if (!browser) {
 		return;
 	}
+
+	problems.set([]);
+	hasMoreProblems.set(true);
+
 	problemFilterParams.update((filterParams) => ({
 		...filterParams,
 		searchTerm,

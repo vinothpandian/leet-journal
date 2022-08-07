@@ -31,7 +31,7 @@
 </script>
 
 <ul class="flex-grow overflow-auto pb-4">
-	{#if problems}
+	{#if problems.length !== 0}
 		{#each problems as { id, title, titleSlug, hardness }}
 			<ProblemItem
 				{title}
@@ -50,7 +50,14 @@
 				</IntersectionObserver>
 			{/key}
 		{/if}
+	{:else if hasMore}
+		<div class="animate-pulse text-sm text-gray-500 pt-2">Loading...</div>
 	{:else}
-		<span class="animate-pulse text-sm text-gray-500 pt-2">Loading...</span>
+		<div class="flex flex-col justify-center items-center gap-4 p-8">
+			<h1 class="text-lg text-gray-400">No leet code questions found</h1>
+			<p class="text-sm text-gray-500">
+				Clear filters or change your search...
+			</p>
+		</div>
 	{/if}
 </ul>
