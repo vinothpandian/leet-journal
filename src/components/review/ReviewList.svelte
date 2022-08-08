@@ -19,10 +19,10 @@
 	$: lastProblemId = problems.slice(-1)[0]?.id ?? 0;
 </script>
 
-<ul class="flex-grow overflow-auto pb-4">
+<ul class="menu menu-compact">
 	{#if problems.length !== 0}
-		{#each problems as { id, title, hardness, reviews } (id)}
-			<ReviewItem {title} {hardness} lastReview={reviews[0]} />
+		{#each problems as { id, title, titleSlug, hardness, reviews } (id)}
+			<ReviewItem {id} {title} {titleSlug} {hardness} lastReview={reviews[0]} />
 		{/each}
 		{#if hasMore}
 			{#key lastProblemId}
