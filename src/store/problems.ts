@@ -36,11 +36,10 @@ export const loadNextPage = async () => {
 	hasMoreProblems.set(hasNext);
 };
 
-export const updateFilters = async ({
-	searchTerm,
-	tag,
-	hardness,
-}: Omit<FilterParams, 'page' | 'pageSize'>) => {
+export const updateFilters = async (
+	{ searchTerm, tag, hardness }: Omit<FilterParams, 'page' | 'pageSize'>,
+	onlyReviewed = false
+) => {
 	if (!browser) {
 		return;
 	}
@@ -59,7 +58,8 @@ export const updateFilters = async ({
 	const filterParams = get(problemFilterParams);
 
 	const { hasNext, problems: fetchedProblems } = await fetchProblems(
-		filterParams
+		filterParams,
+		onlyReviewed
 	);
 
 	problems.set(fetchedProblems);
