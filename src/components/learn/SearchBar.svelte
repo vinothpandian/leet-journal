@@ -17,7 +17,7 @@
 	<div class="flex input-group">
 		<input
 			type="text"
-			placeholder="Search by qustion name…"
+			placeholder="Search by question name…"
 			class="input input-sm input-bordered flex-grow"
 			bind:value
 		/>
