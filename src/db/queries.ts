@@ -2,6 +2,8 @@ import type { Difficulty, Problem, ReviewDate } from '$lib/types';
 import db from './db';
 import type { FilterParams } from './types';
 
+export const fetchProblem = async (id: number) => db.problems.get(id);
+
 export const fetchProblems = async (
 	{ tag, hardness, searchTerm, page, pageSize = 25 }: FilterParams,
 	onlyReviewed = false
