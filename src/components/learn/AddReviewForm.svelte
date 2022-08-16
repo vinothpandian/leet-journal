@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Clear from '$icons/Clear.svelte';
 	import type { Difficulty } from '$lib/types';
-	import dayjs from 'dayjs';
+	import dayjs from 'dayjs/esm';
 	import { createEventDispatcher } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import type { ReviewInfo } from './types';

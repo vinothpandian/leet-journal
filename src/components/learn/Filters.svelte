@@ -26,7 +26,7 @@
 	$: showClearButton = hardness === '' && tag === '';
 </script>
 
-<div class="flex justify-between items-center flex-wrap md:flex-nowrap">
+<form class="flex justify-between items-center flex-wrap md:flex-nowrap">
 	<div>
 		<select
 			bind:value={hardness}
@@ -55,4 +55,4 @@
 	>
 		<Clear />
 	</button>
-</div>
+</form>

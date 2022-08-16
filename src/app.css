@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+	--navbar-height: 64px;
+	--sidenavbar-height: 66px;
+}
