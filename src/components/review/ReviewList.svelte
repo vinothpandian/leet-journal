@@ -35,10 +35,16 @@
 		<div class="animate-pulse text-sm text-gray-500 pt-2">Loading...</div>
 	{:else}
 		<div class="flex flex-col justify-center items-center gap-4 p-8">
-			<h1 class="text-lg text-gray-400">No review found</h1>
-			<p class="text-sm text-gray-500">
-				Clear filters or change your search...
-			</p>
+			<h1 class="text-lg text-gray-400">No reviewed problem found</h1>
+			<div class="flex flex-col justify-center items-center gap-1 pt-4">
+				<p class="text-sm text-gray-500">
+					Go to learn tab and add a problem to review...
+				</p>
+				<p class="text-sm text-gray-500">or</p>
+				<p class="text-sm text-gray-500">
+					Clear filters or change your search...
+				</p>
+			</div>
 		</div>
 	{/if}
 </ul>
