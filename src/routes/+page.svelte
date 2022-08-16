@@ -34,6 +34,7 @@
 
 <style>
 	.wrapper {
-		height: calc(100vh - 64px);
+		height: calc(100vh - var(--navbar-height));
+		overflow: auto;
 	}
 </style>

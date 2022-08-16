@@ -73,6 +73,13 @@
 
 <style>
 	.wrapper {
-		height: calc(100vh - 64px);
+		height: calc(100vh - var(--navbar-height) - var(--sidenavbar-height));
+		overflow: hidden;
+	}
+
+	@media (min-width: 768px) {
+		.wrapper {
+			height: calc(100vh - var(--navbar-height));
+		}
 	}
 </style>
