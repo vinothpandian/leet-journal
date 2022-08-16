@@ -34,7 +34,13 @@
 
 <style>
 	.wrapper {
-		height: calc(100vh - var(--navbar-height));
-		overflow: auto;
+		height: calc(100vh - var(--navbar-height) - var(--sidenavbar-height));
+		overflow: hidden;
+	}
+
+	@media (min-width: 768px) {
+		.wrapper {
+			height: calc(100vh - var(--navbar-height));
+		}
 	}
 </style>

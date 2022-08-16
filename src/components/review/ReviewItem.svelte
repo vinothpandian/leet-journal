@@ -2,6 +2,7 @@
 	import HardnessBadge from '$components/common/HardnessBadge.svelte';
 	import LeetCodeLink from '$components/common/LeetCodeLink.svelte';
 	import { getColorForPercentage } from '$lib/colors';
+	import { getRelativeDate } from '$lib/date';
 
 	import { getRetention } from '$lib/retention';
 
@@ -23,7 +24,7 @@
 <li class="border-b">
 	<a class="flex gap-4 py-3" href={`/review/${id}`}>
 		<div
-			class="radial-progress text-2xs"
+			class="radial-progress text-2xs min-w-[3rem] w-12"
 			style={`--value:${retention};--size: 3rem; color:${retentionColor};`}
 		>
 			{retention}%
@@ -37,9 +38,9 @@
 				</span>
 			</div>
 			<div class="inline-flex justify-between">
-				<span class="text-slate-400 font-light text-xs"
-					>Reviewed {dayjs(lastReview.reviewDate).fromNow()}</span
-				>
+				<span class="text-slate-400 font-light text-xs">
+					Reviewed {getRelativeDate(lastReview.reviewDate)}
+				</span>
 			</div>
 		</div>
 	</a>

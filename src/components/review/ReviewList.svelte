@@ -19,7 +19,7 @@
 	$: lastProblemId = problems.slice(-1)[0]?.id ?? 0;
 </script>
 
-<ul class="menu menu-compact">
+<ul class="menu menu-compact flex-grow overflow-auto pb-4">
 	{#if problems.length !== 0}
 		{#each problems as { id, title, titleSlug, hardness, reviews } (id)}
 			<ReviewItem {id} {title} {titleSlug} {hardness} lastReview={reviews[0]} />
