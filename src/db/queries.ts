@@ -4,6 +4,9 @@ import type { FilterParams } from './types';
 
 export const fetchProblem = async (id: number) => db.problems.get(id);
 
+export const updateProblemNotes = async (id: number, notes: string) =>
+	db.problems.update(id, { notes });
+
 export const fetchProblems = async (
 	{ tag, hardness, searchTerm, page, pageSize = 25 }: FilterParams,
 	onlyReviewed = false

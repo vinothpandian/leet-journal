@@ -1,5 +1,6 @@
 <script lang="ts">
 	import IntersectionObserver from '$lib/IntersectionObserver.svelte';
+	import { getLastReview } from '$lib/review';
 	import type { Problem } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 	import ReviewItem from './ReviewItem.svelte';
@@ -22,7 +23,13 @@
 <ul class="menu menu-compact flex-grow overflow-auto pb-4">
 	{#if problems.length !== 0}
 		{#each problems as { id, title, titleSlug, hardness, reviews } (id)}
-			<ReviewItem {id} {title} {titleSlug} {hardness} lastReview={reviews[0]} />
+			<ReviewItem
+				{id}
+				{title}
+				{titleSlug}
+				{hardness}
+				lastReview={getLastReview(reviews)}
+			/>
 		{/each}
 		{#if hasMore}
 			{#key lastProblemId}
