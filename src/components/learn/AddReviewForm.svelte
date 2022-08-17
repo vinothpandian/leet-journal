@@ -50,12 +50,12 @@
 		<div class="btn-group">
 			{#each [1, 2, 3, 4, 5] as value}
 				<input
+					class="btn btn-xs"
 					type="radio"
 					{value}
-					name="options"
+					name="difficulty"
+					bind:group={difficulty}
 					data-title={value}
-					class="btn btn-xs"
-					checked={value === difficulty}
 				/>
 			{/each}
 		</div>
