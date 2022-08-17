@@ -1,6 +1,5 @@
 import dayjs from 'dayjs/esm';
 import LocalizedFormat from 'dayjs/esm/plugin/localizedFormat';
-import type { Review } from './types';
 
 dayjs.extend(LocalizedFormat);
 
@@ -16,14 +15,3 @@ export const getRelativeDate = (date: string) => {
 };
 
 export const getFormattedDate = (date: string) => dayjs(date).format('ll');
-
-export const sortReviewsByDate = (
-	reviews: Review[],
-	order: 'asc' | 'desc' = 'desc'
-) =>
-	reviews.sort(
-		({ reviewDate: firstReviewDate }, { reviewDate: secondReviewDate }) =>
-			(order === 'asc' ? 1 : -1) *
-			(getDaysPassedCount(firstReviewDate) -
-				getDaysPassedCount(secondReviewDate))
-	);

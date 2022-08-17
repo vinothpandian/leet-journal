@@ -6,3 +6,28 @@
 	--navbar-height: 64px;
 	--sidenavbar-height: 66px;
 }
+
+.steps .step-1 + .step-1:before,
+.steps .step-1:after {
+	background-color: #2b8a3e;
+}
+
+.steps .step-2 + .step-2:before,
+.steps .step-2:after {
+	background-color: #82c91e;
+}
+
+.steps .step-3 + .step-3:before,
+.steps .step-3:after {
+	background-color: #fcc419;
+}
+
+.steps .step-4 + .step-4:before,
+.steps .step-4:after {
+	background-color: #fd7e14;
+}
+
+.steps .step-5 + .step-5:before,
+.steps .step-5:after {
+	background-color: #e03131;
+}

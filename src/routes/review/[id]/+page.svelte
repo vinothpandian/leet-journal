@@ -4,14 +4,11 @@
 	import { updateProblemNotes } from '$db/queries';
 
 	import { getColorForPercentage } from '$lib/colors';
-	import {
-		getFormattedDate,
-		getRelativeDate,
-		sortReviewsByDate,
-	} from '$lib/date';
+	import { getFormattedDate, getRelativeDate } from '$lib/date';
 	import { getDifficultyText } from '$lib/difficulty';
 
 	import { getRetention } from '$lib/retention';
+	import { getLastReview, sortReviewsByDate } from '$lib/review';
 	import type { Problem } from '$lib/types';
 	import dayjs from 'dayjs/esm';
 	import LocalizedFormat from 'dayjs/esm/plugin/localizedFormat';
@@ -27,7 +24,7 @@
 		await updateProblemNotes(problem.id, notes);
 	};
 
-	$: lastReview = problem?.reviews?.[0] ?? {
+	$: lastReview = getLastReview(problem?.reviews) ?? {
 		reviewDate: new Date(),
 		difficulty: 2,
 	};
@@ -80,9 +77,9 @@
 				</div>
 			</div>
 		</div>
-		<ul class="steps steps-vertical	flex-grow overflow-auto">
+		<ul class="steps steps-vertical	overflow-auto">
 			{#each sortReviewsByDate(problem.reviews) as { reviewDate, difficulty }}
-				<li data-content="" class="step">
+				<li data-content="" class={`step step-${difficulty}`}>
 					<div>
 						<span>Marked as </span>
 						<span class={`difficulty-${difficulty}`}>

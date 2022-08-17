@@ -45,11 +45,15 @@
 		<input type="date" bind:value={reviewDate} />
 	</div>
 
-	<div class="flex gap-2 items-center">
+	<div class="flex gap-2 items-center relative">
 		<span>Difficulty: </span>
+		<span class="absolute text-2xs text-secondary top-8 left-16">
+			Very Easy
+		</span>
 		<div class="btn-group">
 			{#each [1, 2, 3, 4, 5] as value}
 				<input
+					title="1 = Very Easy to 5 = Very difficult"
 					class="btn btn-xs"
 					type="radio"
 					{value}
@@ -59,6 +63,9 @@
 				/>
 			{/each}
 		</div>
+		<span class="absolute text-2xs text-secondary top-8 left-40">
+			Very difficult
+		</span>
 	</div>
 
 	<div class="flex justify-end gap-4">
