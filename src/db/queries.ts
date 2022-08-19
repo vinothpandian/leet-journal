@@ -1,6 +1,6 @@
 import type { Difficulty, Problem, ReviewDate } from '$lib/types';
 import db from './db';
-import type { FilterParams } from './types';
+import type { FilterParams, Stats } from './types';
 
 export const fetchProblem = async (id: number) => db.problems.get(id);
 
@@ -55,3 +55,22 @@ export const addReviews = async (
 
 		await db.problems.bulkPut(problemsToUpdate);
 	});
+
+export const getStats = async (): Promise<Stats> => {
+	const totalProblems = await db.problems.count();
+	const totalReviewed = await db.problems
+		.filter((p) => p.reviews.length > 0)
+		.count();
+
+	const remaining = totalProblems - totalReviewed;
+	const percentReviewed = ((totalReviewed / totalProblems) * 100).toFixed(2);
+	const percentRemaining = ((remaining / totalProblems) * 100).toFixed(2);
+
+	return {
+		totalProblems,
+		totalReviewed,
+		percentReviewed,
+		remaining,
+		percentRemaining,
+	};
+};

@@ -7,3 +7,11 @@ export interface FilterParams {
 	page: number;
 	pageSize?: number;
 }
+
+export interface Stats {
+	totalProblems: number;
+	totalReviewed: number;
+	percentReviewed: string;
+	remaining: number;
+	percentRemaining: string;
+}

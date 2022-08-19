@@ -5,6 +5,7 @@
 
 	import MediaQuery from '$lib/MediaQuery.svelte';
 
+	import Dashboard from '$components/common/Dashboard.svelte';
 	import '../app.css';
 </script>
 
@@ -14,6 +15,9 @@
 			<div class="grid gap-2 grid-cols-8 grid-rows-1 h-screen divide-x">
 				<section class="col-span-5 h-screen">
 					<Navbar />
+					<div class="flex flex-grow justify-center+">
+						<Dashboard />
+					</div>
 				</section>
 				<aside class="col-span-3 min-h-full border-solid">
 					<SidebarNavigation />
