@@ -15,6 +15,10 @@
 	let hardness: Hardness | '' = '';
 	let tag: string = '';
 
+	function handleLoadNextPage() {
+		loadNextPage(true);
+	}
+
 	$: searchTerm,
 		tag,
 		hardness,
@@ -28,7 +32,7 @@
 	<ReviewList
 		problems={$problems}
 		hasMore={$hasMoreProblems}
-		on:loadMore={loadNextPage}
+		on:loadMore={handleLoadNextPage}
 	/>
 </div>
 
