@@ -15,7 +15,7 @@
 			<div class="grid gap-2 grid-cols-8 grid-rows-1 h-screen divide-x">
 				<section class="col-span-5 h-screen">
 					<Navbar />
-					<div class="flex flex-grow justify-center+">
+					<div class="flex justify-center dashboard-wrapper">
 						<Dashboard />
 					</div>
 				</section>
@@ -37,3 +37,9 @@
 		style: 'background: rgb(24, 26, 42); color: #fff;',
 	}}
 />
+
+<style>
+	.dashboard-wrapper {
+		height: calc(100vh - var(--navbar-height));
+	}
+</style>

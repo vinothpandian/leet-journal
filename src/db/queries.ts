@@ -1,6 +1,8 @@
+import { getRetention } from '$lib/retention';
+import { getLastReview } from '$lib/review';
 import type { Difficulty, Problem, ReviewDate } from '$lib/types';
 import db from './db';
-import type { FilterParams, Stats } from './types';
+import type { FilterParams, RetentionData, Stats } from './types';
 
 export const fetchProblem = async (id: number) => db.problems.get(id);
 
@@ -74,3 +76,11 @@ export const getStats = async (): Promise<Stats> => {
 		percentRemaining,
 	};
 };
+
+export const getRetentionStats = async (): Promise<RetentionData[]> =>
+	(
+		await db.problems.filter((problem) => problem.reviews.length > 0).toArray()
+	).map((problem) => ({
+		title: problem.title,
+		retention: getRetention(getLastReview(problem.reviews)),
+	}));

@@ -15,3 +15,8 @@ export interface Stats {
 	remaining: number;
 	percentRemaining: string;
 }
+
+export interface RetentionData {
+	title: string;
+	retention: number;
+}
