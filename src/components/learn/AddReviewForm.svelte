@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Clear from '$icons/Clear.svelte';
+	import { getDifficultyBorderColor, getDifficultyText } from '$lib/difficulty';
 	import type { Difficulty } from '$lib/types';
 	import dayjs from 'dayjs/esm';
 	import { createEventDispatcher } from 'svelte';
@@ -24,12 +25,14 @@
 	function handleClose() {
 		dispatch('close');
 	}
+
+	const difficulties: Difficulty[] = [1, 2, 3, 4, 5];
 </script>
 
 <div
 	in:fly={{ y: 200, duration: 500 }}
 	out:fly={{ y: 200, duration: 200 }}
-	class="min-h-[11rem] h-44 border-t border-gray-300 flex flex-col gap-4 p-4"
+	class="min-h-[13rem] h-52 border-t border-gray-300 flex flex-col gap-4 p-4"
 >
 	<div class="flex justify-between">
 		<h1 class="text-md font-bold">Add to review</h1>
@@ -40,32 +43,38 @@
 			<Clear />
 		</button>
 	</div>
-	<div class="flex gap-2 items-center">
-		<span>Completed on: </span>
-		<input type="date" bind:value={reviewDate} />
-	</div>
-
-	<div class="flex gap-2 items-center relative">
-		<span>Difficulty: </span>
-		<span class="absolute text-2xs text-secondary top-8 left-16">
-			Very Easy
-		</span>
-		<div class="btn-group">
-			{#each [1, 2, 3, 4, 5] as value}
-				<input
-					title="1 = Very Easy to 5 = Very difficult"
-					class="btn btn-xs"
-					type="radio"
-					{value}
-					name="difficulty"
-					bind:group={difficulty}
-					data-title={value}
-				/>
-			{/each}
+	<div class="flex flex-col flex-grow gap-4 pl-4">
+		<div class="flex gap-2">
+			<span title="Completed on" class="md:basis-1/4 text-right truncate"
+				>Completed on:
+			</span>
+			<input class="ml-2" type="date" bind:value={reviewDate} />
 		</div>
-		<span class="absolute text-2xs text-secondary top-8 left-40">
-			Very difficult
-		</span>
+
+		<div class="flex gap-2 items-center relative">
+			<span title="Difficulty" class="md:basis-1/4 text-right "
+				>Difficulty:
+			</span>
+			<div class="btn-group relative gap-4 ml-2 flex-nowrap">
+				<span class="absolute text-2xs text-secondary top-8 left-0">
+					Very Easy
+				</span>
+				{#each difficulties as value}
+					<input
+						title={getDifficultyText(value)}
+						class={`btn btn-xs border-4 ${getDifficultyBorderColor(value)}`}
+						type="radio"
+						{value}
+						name="difficulty"
+						bind:group={difficulty}
+						data-title={value}
+					/>
+				{/each}
+				<span class="absolute text-2xs text-secondary top-8 right-0">
+					Very hard
+				</span>
+			</div>
+		</div>
 	</div>
 
 	<div class="flex justify-end gap-4">
