@@ -3,11 +3,14 @@ import {
 	fetchStats,
 	hydrateDashboard,
 } from '$store/dashboard';
+import type { LayoutLoad } from './$types';
 
-export const load = async () => {
+export const load: LayoutLoad = async ({ params }) => {
 	await fetchStats();
 
 	await fetchRetentionStats();
 
-	await hydrateDashboard();
+	if (params?.id === undefined) {
+		await hydrateDashboard();
+	}
 };

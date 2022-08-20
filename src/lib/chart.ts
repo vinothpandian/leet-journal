@@ -1,4 +1,4 @@
-import { Chart, registerables } from 'chart.js';
+import { Chart, registerables, type ChartDataset } from 'chart.js';
 
 import type { ChartConfiguration, TooltipItem } from 'chart.js';
 import dayjs from 'dayjs/esm';
@@ -78,18 +78,23 @@ export const getChartConfiguration = (
 	},
 });
 
-export const DEFAULT_DATASETS: ChartDatasets = (
-	range(5, 1) as Difficulty[]
-).map((difficulty) => ({
+export const getChartDataset = (
+	difficulty: Difficulty,
+	reviewDate?: string
+): ChartDataset<'line', number[]> => ({
 	label: getDifficultyText(difficulty),
 	borderColor: getDifficultyColor(difficulty),
 	data: range(12)
 		.map<Review>((days) => ({
-			reviewDate: dayjs().subtract(days, 'days').toISOString(),
+			reviewDate: dayjs(reviewDate).subtract(days, 'days').toISOString(),
 			difficulty,
 		}))
 		.map(getRetention),
-}));
+});
+
+export const DEFAULT_DATASETS: ChartDatasets = (
+	range(5, 1) as Difficulty[]
+).map((difficulty) => getChartDataset(difficulty));
 
 export function chart(
 	node: HTMLCanvasElement,

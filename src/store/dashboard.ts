@@ -5,7 +5,8 @@ import { browser } from '$app/env';
 
 import { getRetentionStats, getStats } from '$db/queries';
 import type { RetentionData, Stats } from '$db/types';
-import { DEFAULT_DATASETS } from '$lib/chart';
+import { DEFAULT_DATASETS, getChartDataset } from '$lib/chart';
+import { getLastReview } from '$lib/review';
 import type { Problem } from '$lib/types';
 
 export const stats = writable<Stats>({
@@ -44,6 +45,18 @@ export const hydrateDashboardWithDefault = () => {
 	datasets.set(DEFAULT_DATASETS);
 };
 
+export const hydrateDashboardWithProblem = (problem: Problem) => {
+	const { title, reviews } = problem;
+
+	const { reviewDate, difficulty } = getLastReview(reviews);
+
+	chartTitle.set(title);
+
+	const problemChartDataset = getChartDataset(difficulty, reviewDate);
+
+	datasets.set([problemChartDataset]);
+};
+
 export const hydrateDashboard = async (problem?: Problem) => {
 	if (!browser) {
 		return;
@@ -54,6 +67,5 @@ export const hydrateDashboard = async (problem?: Problem) => {
 		return;
 	}
 
-	chartTitle.set(problem.title);
-	datasets.set([]);
+	hydrateDashboardWithProblem(problem);
 };
