@@ -1,6 +1,8 @@
 import dayjs from 'dayjs/esm';
 import LocalizedFormat from 'dayjs/esm/plugin/localizedFormat';
+import RelativeTime from 'dayjs/esm/plugin/relativeTime';
 
+dayjs.extend(RelativeTime);
 dayjs.extend(LocalizedFormat);
 
 const relativeDateMap = ['today', 'yesterday', 'day before yesterday'];

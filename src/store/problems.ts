@@ -12,7 +12,7 @@ export const problemFilterParams = writable<FilterParams>(
 	INITIAL_FILTER_PARAMS
 );
 
-export const loadNextPage = async () => {
+export const loadNextPage = async (onlyReviewed = false) => {
 	if (!browser) {
 		return;
 	}
@@ -25,7 +25,8 @@ export const loadNextPage = async () => {
 	const filterParams = get(problemFilterParams);
 
 	const { hasNext, problems: fetchedProblems } = await fetchProblems(
-		filterParams
+		filterParams,
+		onlyReviewed
 	);
 
 	problems.update((currentProblems) => [

@@ -1,14 +1,14 @@
 const colors = [
-	'#E03131',
-	'#E8590C',
-	'#FD7E14',
-	'#F08C00',
-	'#FCC419',
-	'#A9E34B',
-	'#82C91E',
-	'#66A80F',
-	'#40C057',
-	'#2B8A3E',
+	'#b91c1c',
+	'#c2410c',
+	'#ef4444',
+	'#f97316',
+	'#f59e0b',
+	'#eab308',
+	'#84cc16',
+	'#22c55e',
+	'#4d7c0f',
+	'#15803d',
 ];
 export const getColorForPercentage = (percentage: number) =>
 	colors?.[Math.floor(percentage / 10)] ?? '#000000';
