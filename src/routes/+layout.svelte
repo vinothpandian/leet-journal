@@ -21,13 +21,17 @@
 				</section>
 				<aside class="col-span-3 min-h-full border-solid">
 					<SidebarNavigation />
-					<slot>Loading...</slot>
+					<div class="flex flex-col gap-6 p-6 wrapper">
+						<slot>Loading...</slot>
+					</div>
 				</aside>
 			</div>
 		{:else}
 			<Navbar />
 			<SidebarNavigation />
-			<slot>Loading...</slot>
+			<section class="flex flex-col gap-6 p-6 mobile-wrapper">
+				<slot>Loading...</slot>
+			</section>
 		{/if}
 	</MediaQuery>
 </main>
@@ -40,6 +44,15 @@
 
 <style>
 	.dashboard-wrapper {
+		height: calc(100vh - var(--navbar-height));
+	}
+
+	.mobile-wrapper {
+		height: calc(100vh - var(--navbar-height) - var(--sidenavbar-height));
+		overflow: hidden;
+	}
+
+	.wrapper {
 		height: calc(100vh - var(--navbar-height));
 	}
 </style>

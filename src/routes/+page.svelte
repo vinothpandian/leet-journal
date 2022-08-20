@@ -25,26 +25,11 @@
 		updateFilters({ searchTerm, tag, hardness }, true);
 </script>
 
-<div class="flex flex-col gap-6 p-6 wrapper">
-	<TitleBar title="To Review" withActions={false} />
-	<SearchBar bind:searchTerm />
-	<Filters bind:hardness bind:tag />
-	<ReviewList
-		problems={$problems}
-		hasMore={$hasMoreProblems}
-		on:loadMore={handleLoadNextPage}
-	/>
-</div>
-
-<style>
-	.wrapper {
-		height: calc(100vh - var(--navbar-height) - var(--sidenavbar-height));
-		overflow: hidden;
-	}
-
-	@media (min-width: 768px) {
-		.wrapper {
-			height: calc(100vh - var(--navbar-height));
-		}
-	}
-</style>
+<TitleBar title="To Review" withActions={false} />
+<SearchBar bind:searchTerm />
+<Filters bind:hardness bind:tag />
+<ReviewList
+	problems={$problems}
+	hasMore={$hasMoreProblems}
+	on:loadMore={handleLoadNextPage}
+/>

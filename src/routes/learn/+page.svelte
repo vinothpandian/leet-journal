@@ -59,31 +59,16 @@
 	$: searchTerm, tag, hardness, updateFilters({ searchTerm, tag, hardness });
 </script>
 
-<div class="flex flex-col gap-6 p-6 wrapper">
-	<TitleBar {someProblemSelected} on:clearSelected={clearSelected} />
-	<SearchBar bind:searchTerm />
-	<Filters bind:hardness bind:tag />
-	<ProblemsList
-		problems={$problems}
-		{selectedProblems}
-		hasMore={$hasMoreProblems}
-		on:change={handleChange}
-		on:loadMore={handleLoadNextPage}
-	/>
-	{#if showReviewPopup}
-		<AddReviewForm on:save={handleAddReview} on:close={handleClose} />
-	{/if}
-</div>
-
-<style>
-	.wrapper {
-		height: calc(100vh - var(--navbar-height) - var(--sidenavbar-height));
-		overflow: hidden;
-	}
-
-	@media (min-width: 768px) {
-		.wrapper {
-			height: calc(100vh - var(--navbar-height));
-		}
-	}
-</style>
+<TitleBar {someProblemSelected} on:clearSelected={clearSelected} />
+<SearchBar bind:searchTerm />
+<Filters bind:hardness bind:tag />
+<ProblemsList
+	problems={$problems}
+	{selectedProblems}
+	hasMore={$hasMoreProblems}
+	on:change={handleChange}
+	on:loadMore={handleLoadNextPage}
+/>
+{#if showReviewPopup}
+	<AddReviewForm on:save={handleAddReview} on:close={handleClose} />
+{/if}
