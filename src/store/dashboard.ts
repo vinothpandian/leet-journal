@@ -1,8 +1,11 @@
+import type { ChartDataset } from 'chart.js';
 import { writable } from 'svelte/store';
 
 import { browser } from '$app/env';
+
 import { getRetentionStats, getStats } from '$db/queries';
 import type { RetentionData, Stats } from '$db/types';
+import { DEFAULT_DATASETS } from '$lib/chart';
 
 export const stats = writable<Stats>({
 	totalProblems: -1,
@@ -13,6 +16,9 @@ export const stats = writable<Stats>({
 });
 
 export const retentionStats = writable<RetentionData[]>([]);
+
+export const chartTitle = writable<string>('');
+export const datasets = writable<ChartDataset<'line', number[]>[]>([]);
 
 export const fetchStats = async () => {
 	if (!browser) {
@@ -30,4 +36,23 @@ export const fetchRetentionStats = async () => {
 
 	const currentRetentionStats = await getRetentionStats();
 	retentionStats.set(currentRetentionStats);
+};
+
+export const hydrateDashboardWithDefault = () => {
+	chartTitle.set('');
+	datasets.set(DEFAULT_DATASETS);
+};
+
+export const hydrateDashboard = async (id?: number) => {
+	if (!browser) {
+		return;
+	}
+
+	if (id === undefined) {
+		hydrateDashboardWithDefault();
+		return;
+	}
+
+	chartTitle.set(id.toString());
+	datasets.set([]);
 };

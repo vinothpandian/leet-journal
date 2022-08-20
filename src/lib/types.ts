@@ -1,3 +1,5 @@
+import type { ChartDataset } from 'chart.js';
+
 export type WithTarget<Event, Target> = Event & { currentTarget: Target };
 export type ChangeEvent = WithTarget<Event, HTMLInputElement>;
 
@@ -41,3 +43,5 @@ export interface Problem {
 	notes: string;
 	reviews: Review[];
 }
+
+export type ChartDatasets = ChartDataset<'line', number[]>[];

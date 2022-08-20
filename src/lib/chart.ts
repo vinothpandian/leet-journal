@@ -1,12 +1,19 @@
-import type { ChartConfiguration, ChartDataset, TooltipItem } from 'chart.js';
+import { Chart, registerables } from 'chart.js';
+
+import type { ChartConfiguration, TooltipItem } from 'chart.js';
+import dayjs from 'dayjs/esm';
+import { getDifficultyColor, getDifficultyText } from './difficulty';
+import { getRetention } from './retention';
+import type { ChartDatasets, Difficulty, Review } from './types';
+import { range } from './utils';
 
 export const getChartConfiguration = (
-	labels: string[],
-	datasets: ChartDataset<'line', number[]>[]
+	title: string,
+	datasets: ChartDatasets = []
 ): ChartConfiguration<'line', number[], string> => ({
 	type: 'line',
 	data: {
-		labels,
+		labels: range(12).map((i) => dayjs().add(i, 'days').format('MMM DD')),
 		datasets,
 	},
 	options: {
@@ -24,7 +31,7 @@ export const getChartConfiguration = (
 		plugins: {
 			title: {
 				display: true,
-				text: 'Retention projection',
+				text: `Retention projection ${title && `of ${title}`}`,
 				align: 'start',
 				font: {
 					weight: '500',
@@ -65,7 +72,37 @@ export const getChartConfiguration = (
 					text: 'Retention',
 				},
 				beginAtZero: true,
+				max: 100,
 			},
 		},
 	},
 });
+
+export const DEFAULT_DATASETS: ChartDatasets = (
+	range(5, 1) as Difficulty[]
+).map((difficulty) => ({
+	label: getDifficultyText(difficulty),
+	borderColor: getDifficultyColor(difficulty),
+	data: range(12)
+		.map<Review>((days) => ({
+			reviewDate: dayjs().subtract(days, 'days').toISOString(),
+			difficulty,
+		}))
+		.map(getRetention),
+}));
+
+export function chart(
+	node: HTMLCanvasElement,
+	{ title = '', datasets }: { title?: string; datasets: ChartDatasets }
+) {
+	const ctx = node.getContext('2d');
+
+	if (ctx == null) {
+		return;
+	}
+
+	Chart.register(...registerables);
+
+	// eslint-disable-next-line no-new
+	new Chart(ctx, getChartConfiguration(title, datasets));
+}

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { invalidate } from '$app/navigation';
+
 	import HardnessBadge from '$components/common/HardnessBadge.svelte';
 	import LeetCodeLink from '$components/common/LeetCodeLink.svelte';
 	import { updateProblemNotes } from '$db/queries';
@@ -10,6 +12,7 @@
 	import { getRetention } from '$lib/retention';
 	import { getLastReview, sortReviewsByDate } from '$lib/review';
 	import type { Problem } from '$lib/types';
+	import { onDestroy } from 'svelte';
 
 	export let data: { problem: Problem };
 
@@ -20,6 +23,8 @@
 	const handleNotesChange = async () => {
 		await updateProblemNotes(problem.id, notes);
 	};
+
+	onDestroy(invalidate);
 
 	$: lastReview = getLastReview(problem?.reviews) ?? {
 		reviewDate: new Date(),
