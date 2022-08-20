@@ -1,20 +1,24 @@
 <script lang="ts">
 	import { browser } from '$app/env';
 
-	import { invalidate } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 
 	import HardnessBadge from '$components/common/HardnessBadge.svelte';
 	import LeetCodeLink from '$components/common/LeetCodeLink.svelte';
 	import { updateProblemNotes } from '$db/queries';
+	import Clear from '$icons/Clear.svelte';
+	import Delete from '$icons/Delete.svelte';
 
 	import { getColorForPercentage } from '$lib/colors';
 	import { getFormattedDate, getRelativeDate } from '$lib/date';
 	import { getDifficultyText } from '$lib/difficulty';
 
+	import { removeReview } from '$db/queries';
 	import { getRetention } from '$lib/retention';
 	import { getLastReview, sortReviewsByDate } from '$lib/review';
 	import type { Problem } from '$lib/types';
 	import { onDestroy } from 'svelte';
+	import toast from 'svelte-french-toast';
 
 	export let data: { problem: Problem };
 
@@ -31,6 +35,12 @@
 			invalidate();
 		}
 	});
+
+	async function handleRemoveReview() {
+		await removeReview(problem.id);
+		toast.success(`Removed ${problem.title} review`);
+		goto('/');
+	}
 
 	$: lastReview = getLastReview(problem?.reviews) ?? {
 		reviewDate: new Date(),
@@ -50,16 +60,25 @@
 		</div>
 		<div class="grid flex-grow gap-2">
 			<div class="inline-flex justify-between">
-				<span>{problem.title}</span>
-				<span class="inline-flex gap-2">
-					<HardnessBadge hardness={problem.hardness} />
-					<LeetCodeLink titleSlug={problem.titleSlug} />
-				</span>
-			</div>
-			<div class="inline-flex justify-between">
-				<span class="text-slate-400 font-light text-xs">
-					Reviewed {getRelativeDate(problem.reviews[0].reviewDate)}
-				</span>
+				<div class="flex flex-col gap-2">
+					<span>{problem.title}</span>
+					<span class="text-slate-400 font-light text-xs">
+						Reviewed {getRelativeDate(problem.reviews[0].reviewDate)}
+					</span>
+				</div>
+				<div class="flex flex-col items-end gap-4">
+					<span class="inline-flex gap-2">
+						<HardnessBadge hardness={problem.hardness} />
+						<LeetCodeLink titleSlug={problem.titleSlug} />
+					</span>
+					<label
+						for="delete-confirmation-modal"
+						class="btn btn-xs btn-outline rounded text-red-500 modal-button"
+					>
+						<Delete />
+						<span class="ml-2 hidden md:inline-block capitalize">Delete</span>
+					</label>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -97,4 +116,35 @@
 			</li>
 		{/each}
 	</ul>
+
+	<!-- Confirmation Dialog -->
+	<input type="checkbox" id="delete-confirmation-modal" class="modal-toggle" />
+
+	<label
+		for="delete-confirmation-modal"
+		class="modal modal-bottom sm:modal-middle cursor-pointer"
+	>
+		<label class="modal-box relative" for="">
+			<label
+				for="delete-confirmation-modal"
+				class="btn btn-link btn-xs btn-square rounded absolute right-4 top-4"
+			>
+				<Clear />
+			</label>
+
+			<h3 class="text-lg font-bold">Are you sure!</h3>
+			<p class="py-4">
+				You are deleting the review of <b>{problem.title}</b> problem. This is
+				irreversible and you'll lose the data of last
+				<b>{problem.reviews.length}</b> reviews.
+			</p>
+			<div class="modal-action">
+				<label
+					for="delete-confirmation-modal"
+					class="btn btn-error text-white bg-red-500"
+					on:click={handleRemoveReview}>Delete</label
+				>
+			</div>
+		</label>
+	</label>
 {/if}

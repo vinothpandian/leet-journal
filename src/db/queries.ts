@@ -58,6 +58,16 @@ export const addReviews = async (
 		await db.problems.bulkPut(problemsToUpdate);
 	});
 
+export const removeReview = async (id: number) => {
+	db.transaction('rw', db.problems, async () => {
+		const problem = await db.problems.get(id);
+
+		const problemToUpdate = { ...problem, reviews: [] } as Problem;
+
+		await db.problems.put(problemToUpdate, id);
+	});
+};
+
 export const getStats = async (): Promise<Stats> => {
 	const totalProblems = await db.problems.count();
 	const totalReviewed = await db.problems
