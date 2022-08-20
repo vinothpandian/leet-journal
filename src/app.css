@@ -7,6 +7,14 @@
 	--sidenavbar-height: 66px;
 }
 
+.steps .step::before {
+	@apply w-1;
+}
+
+.steps .step::after {
+	@apply h-5 w-5;
+}
+
 .steps .step-1 + .step-1:before,
 .steps .step-1:after {
 	@apply bg-green-700;

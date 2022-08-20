@@ -84,7 +84,7 @@
 			</div>
 		</div>
 	</div>
-	<ul class="steps steps-vertical	overflow-auto">
+	<ul class="steps steps-vertical	overflow-auto text-sm text-gray-700">
 		{#each sortReviewsByDate(problem.reviews) as { reviewDate, difficulty }}
 			<li data-content="" class={`step step-${difficulty}`}>
 				<div>
