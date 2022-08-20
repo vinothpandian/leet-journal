@@ -8,8 +8,7 @@
 
 	import type { Hardness, Review } from '$lib/types';
 	import dayjs from 'dayjs/esm';
-	import RelativeTime from 'dayjs/esm/plugin/relativeTime';
-	dayjs.extend(RelativeTime);
+
 
 	export let id: number;
 	export let title: string;

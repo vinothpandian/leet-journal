@@ -10,9 +10,6 @@
 	import { getRetention } from '$lib/retention';
 	import { getLastReview, sortReviewsByDate } from '$lib/review';
 	import type { Problem } from '$lib/types';
-	import dayjs from 'dayjs/esm';
-	import LocalizedFormat from 'dayjs/esm/plugin/localizedFormat';
-	dayjs.extend(LocalizedFormat);
 
 	export let data: { problem: Problem };
 

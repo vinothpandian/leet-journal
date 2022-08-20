@@ -52,6 +52,10 @@
 		toast.success('Reviews added..');
 	}
 
+	function handleLoadNextPage() {
+		loadNextPage();
+	}
+
 	$: searchTerm, tag, hardness, updateFilters({ searchTerm, tag, hardness });
 </script>
 
@@ -64,7 +68,7 @@
 		{selectedProblems}
 		hasMore={$hasMoreProblems}
 		on:change={handleChange}
-		on:loadMore={loadNextPage}
+		on:loadMore={handleLoadNextPage}
 	/>
 	{#if showReviewPopup}
 		<AddReviewForm on:save={handleAddReview} on:close={handleClose} />
