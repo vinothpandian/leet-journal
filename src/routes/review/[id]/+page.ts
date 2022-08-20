@@ -9,7 +9,7 @@ export const load: PageLoad = async ({ params }) => {
 	}
 
 	const problem = await fetchProblem(+params.id);
-	await hydrateDashboard(+params.id);
+	await hydrateDashboard(problem);
 
 	return { problem };
 };

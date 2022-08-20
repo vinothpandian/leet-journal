@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { browser } from '$app/env';
+
 	import { invalidate } from '$app/navigation';
 
 	import HardnessBadge from '$components/common/HardnessBadge.svelte';
@@ -24,7 +26,11 @@
 		await updateProblemNotes(problem.id, notes);
 	};
 
-	onDestroy(invalidate);
+	onDestroy(() => {
+		if (browser) {
+			invalidate();
+		}
+	});
 
 	$: lastReview = getLastReview(problem?.reviews) ?? {
 		reviewDate: new Date(),

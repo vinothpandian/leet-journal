@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { invalidate } from '$app/navigation';
+
 	import AddReviewForm from '$components/learn/AddReviewForm.svelte';
 
 	import Filters from '$components/learn/Filters.svelte';
@@ -50,6 +52,7 @@
 		showReviewPopup = false;
 		await addReviews(reviewDate, difficulty, problemIds);
 		toast.success('Reviews added..');
+		invalidate();
 	}
 
 	function handleLoadNextPage() {
