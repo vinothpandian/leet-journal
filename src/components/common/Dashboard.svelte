@@ -3,8 +3,8 @@
 	import Chart from './Chart.svelte';
 </script>
 
-<div class="flex flex-col w-full">
-	<div class="stats w-full p-12">
+<div class="flex flex-col flex-grow w-full">
+	<div class="stats w-full p-12 min-h-[210px]">
 		<div class="stat text-center">
 			<div class="stat-title">Problems</div>
 			<div class="stat-value">{$stats.totalProblems}</div>
