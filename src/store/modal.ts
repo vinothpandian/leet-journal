@@ -29,8 +29,8 @@ export const modalInfo = writable<IModalInfo>(INITIAL_MODAL_INFO);
 export const modalAction = writable<IModalAction>(INITIAL_MODAL_ACTION);
 
 export const closeModal = () => {
+	isModalOpen.set(false);
+
 	modalInfo.set(INITIAL_MODAL_INFO);
 	modalAction.set(INITIAL_MODAL_ACTION);
-
-	isModalOpen.set(false);
 };

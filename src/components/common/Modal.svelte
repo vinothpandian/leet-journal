@@ -20,9 +20,9 @@
 <div
 	class="modal modal-bottom sm:modal-middle cursor-pointer"
 	class:modal-open={$isModalOpen}
-	on:click={closeModal}
+	on:click|self={closeModal}
 >
-	<label class="modal-box relative" for={$modalId}>
+	<div class="modal-box relative">
 		<button
 			type="button"
 			class="btn btn-link btn-xs btn-square rounded absolute right-4 top-4"
@@ -36,12 +36,16 @@
 			{@html $modalInfo.message}
 		</p>
 
-		<div class="modal-action">
-			<button
-				type="button"
-				class="btn btn-error text-white bg-red-500"
-				on:click={handleModalAction}>{$modalAction.text}</button
-			>
-		</div>
-	</label>
+		{#if $modalAction.text !== ''}
+			<div class="modal-action">
+				<button
+					type="button"
+					class="btn btn-error text-white bg-red-500"
+					on:click|stopPropagation|preventDefault={handleModalAction}
+				>
+					{$modalAction.text}
+				</button>
+			</div>
+		{/if}
+	</div>
 </div>
