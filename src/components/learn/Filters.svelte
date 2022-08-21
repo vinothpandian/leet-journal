@@ -27,18 +27,22 @@
 </script>
 
 <form class="flex justify-between items-center flex-wrap md:flex-nowrap">
-	<div>
+	<div class="flex flex-col md:flex-row gap-2">
+		<span class="text-sm">Filter By</span>
 		<select
 			bind:value={hardness}
-			class="select select-xs min-w-full md:min-w-min"
+			class="select select-bordered font-normal select-xs min-w-full md:min-w-min"
 		>
-			<option value="" selected>Select Difficulty</option>
+			<option value="" selected>Difficulty</option>
 			<option value="easy" class="text-success">Easy</option>
 			<option value="medium" class="text-warning">Medium</option>
 			<option value="hard" class="text-error">Hard</option>
 		</select>
-		<select bind:value={tag} class="select select-xs min-w-full md:min-w-min">
-			<option value="" selected>Select Tags</option>
+		<select
+			bind:value={tag}
+			class="select select-bordered font-normal select-xs min-w-full md:min-w-min"
+		>
+			<option value="" selected>Tags</option>
 			{#if $problemTypes}
 				{#each $problemTypes as problemType}
 					<option value={problemType}>{problemType}</option>

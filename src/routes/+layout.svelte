@@ -6,6 +6,7 @@
 	import MediaQuery from '$lib/MediaQuery.svelte';
 
 	import Dashboard from '$components/common/Dashboard.svelte';
+	import Modal from '$components/common/Modal.svelte';
 	import '../app.css';
 </script>
 
@@ -41,6 +42,7 @@
 		style: 'background: rgb(24, 26, 42); color: #fff;',
 	}}
 />
+<Modal />
 
 <style>
 	.dashboard-wrapper {

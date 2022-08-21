@@ -31,18 +31,25 @@ export const getChartConfiguration = (
 		plugins: {
 			title: {
 				display: true,
-				text: `Retention projection ${title && `of ${title}`}`,
-				align: 'start',
+				text: `Retention Projection ${title && `of ${title}`}`,
+				position: 'bottom',
+				align: 'center',
+				color: '#181A2A',
 				font: {
-					weight: '500',
-					size: 18,
+					weight: '700',
+					size: 16,
 				},
 			},
 			subtitle: {
 				display: true,
-				align: 'start',
+				position: 'bottom',
+				align: 'center',
 				text: 'Projected for next 12 days',
-				padding: { top: 0, bottom: 48 },
+				color: '#747680',
+				font: {
+					weight: '400',
+					size: 12,
+				},
 			},
 			tooltip: {
 				bodyFont: {

@@ -6,7 +6,6 @@
 	import HardnessBadge from '$components/common/HardnessBadge.svelte';
 	import LeetCodeLink from '$components/common/LeetCodeLink.svelte';
 	import { updateProblemNotes } from '$db/queries';
-	import Clear from '$icons/Clear.svelte';
 	import Delete from '$icons/Delete.svelte';
 
 	import { getColorForPercentage } from '$lib/colors';
@@ -17,6 +16,7 @@
 	import { getRetention } from '$lib/retention';
 	import { getLastReview, sortReviewsByDate } from '$lib/review';
 	import type { Problem } from '$lib/types';
+	import { isModalOpen, modalAction, modalInfo } from '$store/modal';
 	import { onDestroy } from 'svelte';
 	import toast from 'svelte-french-toast';
 
@@ -30,17 +30,33 @@
 		await updateProblemNotes(problem.id, notes);
 	};
 
-	onDestroy(() => {
-		if (browser) {
-			invalidate();
-		}
-	});
+	const handleDeleteClick = () => {
+		modalInfo.set({
+			title: 'Are you sure?!',
+			message: `You are deleting the review of <b>${problem.title}</b> problem. This is
+				irreversible and you'll lose the data of last
+				<b>${problem.reviews.length}</b> reviews.`,
+		});
+
+		modalAction.set({
+			text: 'Delete',
+			callback: handleRemoveReview,
+		});
+
+		isModalOpen.set(true);
+	};
 
 	async function handleRemoveReview() {
 		await removeReview(problem.id);
 		toast.success(`Removed ${problem.title} review`);
 		goto('/');
 	}
+
+	onDestroy(() => {
+		if (browser) {
+			invalidate();
+		}
+	});
 
 	$: lastReview = getLastReview(problem?.reviews) ?? {
 		reviewDate: new Date(),
@@ -71,13 +87,14 @@
 						<HardnessBadge hardness={problem.hardness} />
 						<LeetCodeLink titleSlug={problem.titleSlug} />
 					</span>
-					<label
-						for="delete-confirmation-modal"
+					<button
+						type="button"
 						class="btn btn-xs btn-outline rounded text-red-500 modal-button"
+						on:click={handleDeleteClick}
 					>
 						<Delete />
 						<span class="ml-2 hidden md:inline-block capitalize">Delete</span>
-					</label>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -116,35 +133,4 @@
 			</li>
 		{/each}
 	</ul>
-
-	<!-- Confirmation Dialog -->
-	<input type="checkbox" id="delete-confirmation-modal" class="modal-toggle" />
-
-	<label
-		for="delete-confirmation-modal"
-		class="modal modal-bottom sm:modal-middle cursor-pointer"
-	>
-		<label class="modal-box relative" for="">
-			<label
-				for="delete-confirmation-modal"
-				class="btn btn-link btn-xs btn-square rounded absolute right-4 top-4"
-			>
-				<Clear />
-			</label>
-
-			<h3 class="text-lg font-bold">Are you sure!</h3>
-			<p class="py-4">
-				You are deleting the review of <b>{problem.title}</b> problem. This is
-				irreversible and you'll lose the data of last
-				<b>{problem.reviews.length}</b> reviews.
-			</p>
-			<div class="modal-action">
-				<label
-					for="delete-confirmation-modal"
-					class="btn btn-error text-white bg-red-500"
-					on:click={handleRemoveReview}>Delete</label
-				>
-			</div>
-		</label>
-	</label>
 {/if}

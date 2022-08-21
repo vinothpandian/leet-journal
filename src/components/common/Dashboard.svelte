@@ -4,23 +4,32 @@
 </script>
 
 <div class="flex flex-col flex-grow w-full">
-	<div class="stats w-full p-12 min-h-[210px]">
+	<div class="stats w-full p-12 min-h-[230px] overflow-hidden">
 		<div class="stat text-center">
-			<div class="stat-title">Problems</div>
-			<div class="stat-value">{$stats.totalProblems}</div>
+			<div class="stat-title uppercase text-xs tracking-widest font-light mb-2">
+				Total<br />Problems
+			</div>
+			<div class="stat-value font-semibold mb-1">{$stats.totalProblems}</div>
+			<div class="stat-desc">
+				{'-'}
+			</div>
 		</div>
 
 		<div class="stat text-center">
-			<div class="stat-title">Reviewed</div>
-			<div class="stat-value">{$stats.totalReviewed}</div>
+			<div class="stat-title uppercase text-xs tracking-widest font-light mb-2">
+				Reviewed<br />Problems
+			</div>
+			<div class="stat-value font-semibold mb-1">{$stats.totalReviewed}</div>
 			<div class="stat-desc">
 				{$stats.percentReviewed}%
 			</div>
 		</div>
 
 		<div class="stat text-center">
-			<div class="stat-title">Remaining</div>
-			<div class="stat-value">{$stats.remaining}</div>
+			<div class="stat-title uppercase text-xs tracking-widest font-light mb-2">
+				Remaining<br />Problems
+			</div>
+			<div class="stat-value font-semibold mb-1">{$stats.remaining}</div>
 			<div class="stat-desc">{$stats.percentRemaining}%</div>
 		</div>
 	</div>
