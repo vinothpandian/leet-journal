@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import GoBack from '$icons/GoBack.svelte';
-	import Settings from '$icons/Settings.svelte';
+	import Settings from '../../icons/Settings.svelte';
 	let path: string;
 
 	$: path = $page.url.pathname;
