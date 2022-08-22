@@ -1,6 +1,7 @@
 {
 	"name": "leet-journal",
 	"version": "0.0.1",
+	"license": "MIT",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -41,5 +42,8 @@
 		"typescript": "^4.7.4",
 		"vite": "^3.0.8"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"yup": "^0.32.11"
+	}
 }
