@@ -22,11 +22,15 @@
 	class:modal-open={$isModalOpen}
 	on:click|self={closeModal}
 >
-	<div class="modal-box relative">
+	<label
+		class="modal-box relative"
+		for={$modalId}
+		on:click|stopPropagation|preventDefault
+	>
 		<button
 			type="button"
 			class="btn btn-link btn-xs btn-square rounded absolute right-4 top-4"
-			on:click={closeModal}
+			on:click|stopPropagation|preventDefault={closeModal}
 		>
 			<Clear />
 		</button>
@@ -47,5 +51,5 @@
 				</button>
 			</div>
 		{/if}
-	</div>
+	</label>
 </div>
