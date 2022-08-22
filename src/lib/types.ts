@@ -45,3 +45,8 @@ export interface Problem {
 }
 
 export type ChartDatasets = ChartDataset<'line', number[]>[];
+
+export type ExportedReviews = Record<
+	number,
+	Pick<Problem, 'notes' | 'reviews'>
+>;

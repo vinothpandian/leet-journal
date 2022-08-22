@@ -31,3 +31,6 @@ export const fetchProblems = async (
 			problems,
 		};
 	});
+
+export const fetchReviews = async () =>
+	db.problems.filter((problem) => problem.reviews.length > 0).toArray();

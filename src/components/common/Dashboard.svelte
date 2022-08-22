@@ -10,9 +10,7 @@
 				Total<br />Problems
 			</div>
 			<div class="stat-value font-semibold mb-1">{$stats.totalProblems}</div>
-			<div class="stat-desc">
-				{'-'}
-			</div>
+			<div class="stat-desc">&nbsp;</div>
 		</div>
 
 		<div class="stat text-center">

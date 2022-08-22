@@ -32,8 +32,8 @@ export const getChartConfiguration = (
 			title: {
 				display: true,
 				text: `Retention Projection ${title && `of ${title}`}`,
-				position: 'bottom',
-				align: 'center',
+				position: 'top',
+				align: 'start',
 				color: '#181A2A',
 				font: {
 					weight: '700',
@@ -42,10 +42,11 @@ export const getChartConfiguration = (
 			},
 			subtitle: {
 				display: true,
-				position: 'bottom',
-				align: 'center',
+				position: 'top',
+				align: 'start',
 				text: 'Projected for next 12 days',
 				color: '#747680',
+				padding: { bottom: 32 },
 				font: {
 					weight: '400',
 					size: 12,
@@ -63,7 +64,6 @@ export const getChartConfiguration = (
 			legend: {
 				display: true,
 				position: 'bottom',
-				labels: { padding: 48 },
 			},
 		},
 		scales: {
