@@ -14,7 +14,7 @@
 
 	import { removeReview } from '$db/queries';
 	import { getRetention } from '$lib/retention';
-	import { getLastReview, sortReviewsByDate } from '$lib/review';
+	import { getLastReview } from '$lib/review';
 	import type { Problem } from '$lib/types';
 	import { isModalOpen, modalAction, modalInfo } from '$store/modal';
 	import { onDestroy } from 'svelte';
@@ -121,7 +121,7 @@
 		</div>
 	</div>
 	<ul class="steps steps-vertical	overflow-auto text-sm text-gray-700">
-		{#each sortReviewsByDate(problem.reviews) as { reviewDate, difficulty }}
+		{#each problem.reviews as { reviewDate, difficulty }}
 			<li data-content="" class={`step step-${difficulty}`}>
 				<div>
 					<span>Marked as </span>

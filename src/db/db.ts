@@ -7,7 +7,7 @@ export class LeetJournalDb extends Dexie {
 	constructor() {
 		super('LeetJournalDb');
 		this.version(1).stores({
-			problems: '&id, &title, hardness, topicTags',
+			problems: '&id, &title, lastReviewDate, hardness, topicTags',
 		});
 
 		this.on('ready', () => this.ready());
@@ -35,6 +35,7 @@ export class LeetJournalDb extends Dexie {
 			title: rawProblem.title,
 			titleSlug: rawProblem.titleSlug,
 			topicTags: rawProblem.topicTags.split(';').filter((tag) => tag),
+			lastReviewDate: -1,
 			notes: '',
 			reviews: [],
 		}));
