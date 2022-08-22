@@ -20,6 +20,10 @@ export class LeetJournalDb extends Dexie {
 			return;
 		}
 
+		await this.initiateProblemsDb();
+	}
+
+	async initiateProblemsDb() {
 		const data = await fetch(`${window.location.origin}/problems.json`);
 		const rawProblems: RawProblem[] = await data.json();
 
@@ -36,6 +40,11 @@ export class LeetJournalDb extends Dexie {
 		}));
 
 		this.problems.bulkAdd(problems);
+	}
+
+	async reset() {
+		await this.problems.clear();
+		await this.initiateProblemsDb();
 	}
 }
 

@@ -1,10 +1,12 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 
 	import TitleBar from '$components/learn/TitleBar.svelte';
+	import db from '$db/db';
 	import { importReviews } from '$db/queries';
 	import { exportReviewsAsJson, validateReviewJson } from '$lib/import-export';
 	import { isJsonString } from '$lib/utils';
+	import { isModalOpen, modalAction, modalInfo } from '$store/modal';
 	import toast from 'svelte-french-toast';
 
 	const handleImportFile = (event: Event) => {
@@ -34,12 +36,32 @@
 			}
 
 			await importReviews(fileContent);
+			await invalidate();
 			toast.success('Imported reviews from JSON file');
 			goto('/');
 		};
 
 		reader.readAsText(importedFile);
 	};
+
+	function handleResetProgressClick() {
+		modalInfo.set({
+			title: 'Are you sure?! This is irrevocable!',
+			message:
+				'This will reset all the existing reviews and you will <b>lose all your the current progress</b> in your review journal. If you wish to backup your progress, close this dialog and export your current progress in Settings menu before resetting.',
+		});
+
+		modalAction.set({
+			text: 'Reset Everything!',
+			callback: async () => {
+				await db.reset();
+				await invalidate();
+				goto('/learn');
+			},
+		});
+
+		isModalOpen.set(true);
+	}
 </script>
 
 <TitleBar title="Settings" withActions={false} />
@@ -70,7 +92,11 @@
 
 <div class="flex mt-12 items-end">
 	<div class="flex flex-nowrap items-center gap-4">
-		<button type="button" class="btn btn-error btn-sm btn-outline uppercase">
+		<button
+			type="button"
+			class="btn btn-error btn-sm btn-outline uppercase"
+			on:click={handleResetProgressClick}
+		>
 			Reset all Progress
 		</button>
 	</div>
