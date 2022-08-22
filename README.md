@@ -1,38 +1,30 @@
-# create-svelte
+<h1 align="center">Welcome to Leet Journal 👋</h1>
+<p align="center">
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
+  <a href="#" target="_blank">
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+  </a>
+</p>
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+> Track your Leetcode progress and track your review schedule calculated based on Spaced-Repetition
 
-## Creating a project
+### 🏠 [Use it here..](leet-journal.vercel.app)
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Author
 
-```bash
-# create a new project in the current directory
-npm init svelte
+👤 **Vinoth Pandian**
 
-# create a new project in my-app
-npm init svelte my-app
-```
+- Website: vinoth.info
+- Github: [@vinothpandian](https://github.com/vinothpandian)
 
-## Developing
+## 🤝 Contributing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/vinothpandian/leet-journal/issues). You can also take a look at the [contributing guide](https://github.com/vinothpandian/leet-journal/CONTRIBUTING.md).
 
-```bash
-npm run dev
+## Show your support
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+Give a ⭐️ if this project helped you!
 
-## Building
+---
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
