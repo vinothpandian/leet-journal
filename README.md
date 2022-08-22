@@ -8,7 +8,7 @@
 
 > Track your Leetcode progress and track your review schedule calculated based on Spaced-Repetition
 
-### 🏠 [Use it here..](leet-journal.vercel.app)
+### 🏠 [Use it here..](https://leet-journal.vercel.app/)
 
 ## Author
 
