@@ -41,6 +41,7 @@ export interface Problem {
 	titleSlug: string;
 	topicTags: string[];
 	notes: string;
+	lastReviewDate: number;
 	reviews: Review[];
 }
 

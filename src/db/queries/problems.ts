@@ -13,8 +13,13 @@ export const fetchProblems = async (
 	db.transaction('r', db.problems, async () => {
 		const offset = page * pageSize;
 
-		const query = db.problems
-			.filter((p) => !onlyReviewed || p.reviews.length > 0)
+		let query = db.problems.orderBy(onlyReviewed ? 'lastReviewDate' : 'id');
+
+		if (onlyReviewed) {
+			query = query.reverse().filter((p) => p.reviews.length > 0);
+		}
+
+		query = query
 			.filter((p) => tag === '' || p.topicTags.includes(tag))
 			.filter((p) => hardness === '' || p.hardness === hardness)
 			.filter((p) => p.title.toLowerCase().includes(searchTerm.toLowerCase()));

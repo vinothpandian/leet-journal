@@ -12,5 +12,4 @@ export const sortReviewsByDate = (
 				getDaysPassedCount(secondReviewDate))
 	);
 
-export const getLastReview = (reviews: Review[] = []) =>
-	sortReviewsByDate(reviews)[0];
+export const getLastReview = (reviews: Review[] = []) => reviews[0];
