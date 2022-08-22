@@ -45,15 +45,20 @@
 	</div>
 	<div class="flex flex-col flex-grow gap-4 pl-4">
 		<div class="flex gap-2">
-			<span title="Completed on" class="md:basis-1/4 text-right truncate"
-				>Completed on:
+			<span title="Completed on" class="md:basis-1/4 text-right truncate">
+				Completed on:
 			</span>
-			<input class="ml-2" type="date" bind:value={reviewDate} />
+			<input
+				class="ml-2"
+				type="date"
+				max={dayjs().format('YYYY-MM-DD')}
+				bind:value={reviewDate}
+			/>
 		</div>
 
 		<div class="flex gap-2 items-center relative">
-			<span title="Difficulty" class="md:basis-1/4 text-right "
-				>Difficulty:
+			<span title="Difficulty" class="md:basis-1/4 text-right">
+				Difficulty:
 			</span>
 			<div class="btn-group relative gap-4 ml-2 flex-nowrap">
 				<span class="absolute text-2xs text-secondary top-8 left-0">

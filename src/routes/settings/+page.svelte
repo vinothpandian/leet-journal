@@ -1,5 +1,6 @@
 <script lang="ts">
 	import TitleBar from '$components/learn/TitleBar.svelte';
+	import { exportReviewsAsJson } from '$lib/export';
 </script>
 
 <TitleBar title="Settings" withActions={false} />
@@ -9,7 +10,9 @@
 <div class="flex flex-col gap-8 p-2">
 	<div class="flex flex-nowrap items-center gap-4">
 		<span class="basis-1/4">Export Progress :</span>
-		<button type="button" class="btn btn-xs">Download as JSON</button>
+		<button type="button" class="btn btn-xs" on:click={exportReviewsAsJson}
+			>Download as JSON</button
+		>
 	</div>
 	<div class="flex flex-nowrap items-center gap-4">
 		<span class="basis-1/4">Restore Progress :</span>
