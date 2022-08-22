@@ -7,8 +7,8 @@
 </script>
 
 {#key title}
-	<div class="flex flex-grow justify-center">
-		<div class="w-9/12">
+	<div class="flex flex-grow justify-center items-center">
+		<div class="w-9/12 max-w-screen-md">
 			<canvas use:chart={{ title, datasets }} id="projectionChart" />
 		</div>
 	</div>
