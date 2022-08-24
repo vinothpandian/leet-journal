@@ -33,7 +33,7 @@
 
 <TitleBar title="To Review" withActions={false} />
 <SearchBar bind:searchTerm />
-<Filters bind:hardness bind:tag />
+<Filters bind:hardness bind:tag withSorting />
 <ReviewList
 	problems={$problems}
 	hasMore={$hasMoreProblems}

@@ -10,6 +10,7 @@
 
 	export let hardness: Hardness | '' = '';
 	export let tag: string = '';
+	export let withSorting = false;
 
 	$: problemTypes = liveQuery(async () => {
 		if (!browser) {
@@ -55,17 +56,19 @@
 	</div>
 
 	<div class="flex gap-2">
-		<button
-			type="button"
-			class="btn btn-link btn-xs btn-square rounded"
-			on:click={updateSortingOrder}
-		>
-			{#if $sortReviewsByDescending}
-				<Descending />
-			{:else}
-				<Ascending />
-			{/if}
-		</button>
+		{#if withSorting}
+			<button
+				type="button"
+				class="btn btn-link btn-xs btn-square rounded"
+				on:click={updateSortingOrder}
+			>
+				{#if $sortReviewsByDescending}
+					<Descending />
+				{:else}
+					<Ascending />
+				{/if}
+			</button>
+		{/if}
 		<button
 			type="button"
 			class="btn btn-link btn-xs btn-square rounded"
