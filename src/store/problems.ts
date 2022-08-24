@@ -12,6 +12,8 @@ export const problemFilterParams = writable<FilterParams>(
 	INITIAL_FILTER_PARAMS
 );
 
+export const sortReviewsByDescending = writable<boolean>(true);
+
 export const loadNextPage = async (onlyReviewed = false) => {
 	if (!browser) {
 		return;
@@ -23,10 +25,12 @@ export const loadNextPage = async (onlyReviewed = false) => {
 	}));
 
 	const filterParams = get(problemFilterParams);
+	const sortReviews = get(sortReviewsByDescending);
 
 	const { hasNext, problems: fetchedProblems } = await fetchProblems(
 		filterParams,
-		onlyReviewed
+		onlyReviewed,
+		sortReviews
 	);
 
 	problems.update((currentProblems) => [
@@ -39,7 +43,8 @@ export const loadNextPage = async (onlyReviewed = false) => {
 
 export const updateFilters = async (
 	{ searchTerm, tag, hardness }: Omit<FilterParams, 'page' | 'pageSize'>,
-	onlyReviewed = false
+	onlyReviewed = false,
+	sortReviews = false
 ) => {
 	if (!browser) {
 		return;
@@ -60,9 +65,14 @@ export const updateFilters = async (
 
 	const { hasNext, problems: fetchedProblems } = await fetchProblems(
 		filterParams,
-		onlyReviewed
+		onlyReviewed,
+		sortReviews
 	);
 
 	problems.set(fetchedProblems);
 	hasMoreProblems.set(hasNext);
+};
+
+export const updateSortingOrder = () => {
+	sortReviewsByDescending.update((currentSortOrder) => !currentSortOrder);
 };
