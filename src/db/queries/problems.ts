@@ -8,7 +8,8 @@ export const updateProblemNotes = async (id: number, notes: string) =>
 
 export const fetchProblems = async (
 	{ tag, hardness, searchTerm, page, pageSize = 25 }: FilterParams,
-	onlyReviewed = false
+	onlyReviewed = false,
+	sortReviewsByDescending = false
 ) =>
 	db.transaction('r', db.problems, async () => {
 		const offset = page * pageSize;
@@ -16,7 +17,11 @@ export const fetchProblems = async (
 		let query = db.problems.orderBy(onlyReviewed ? 'lastReviewDate' : 'id');
 
 		if (onlyReviewed) {
-			query = query.reverse().filter((p) => p.reviews.length > 0);
+			if (sortReviewsByDescending) {
+				query = query.reverse();
+			}
+
+			query = query.filter((p) => p.reviews.length > 0);
 		}
 
 		query = query

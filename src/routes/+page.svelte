@@ -8,6 +8,7 @@
 		hasMoreProblems,
 		loadNextPage,
 		problems,
+		sortReviewsByDescending,
 		updateFilters,
 	} from '$store/problems';
 
@@ -22,12 +23,17 @@
 	$: searchTerm,
 		tag,
 		hardness,
-		updateFilters({ searchTerm, tag, hardness }, true);
+		$sortReviewsByDescending,
+		updateFilters(
+			{ searchTerm, tag, hardness },
+			true,
+			$sortReviewsByDescending
+		);
 </script>
 
 <TitleBar title="To Review" withActions={false} />
 <SearchBar bind:searchTerm />
-<Filters bind:hardness bind:tag />
+<Filters bind:hardness bind:tag withSorting />
 <ReviewList
 	problems={$problems}
 	hasMore={$hasMoreProblems}

@@ -1,12 +1,16 @@
 <script lang="ts">
 	import { browser } from '$app/env';
 	import db from '$db/db';
+	import Ascending from '$icons/Ascending.svelte';
 	import Clear from '$icons/Clear.svelte';
+	import Descending from '$icons/Descending.svelte';
 	import type { Hardness } from '$lib/types';
+	import { sortReviewsByDescending, updateSortingOrder } from '$store/problems';
 	import { liveQuery } from 'dexie';
 
 	export let hardness: Hardness | '' = '';
 	export let tag: string = '';
+	export let withSorting = false;
 
 	$: problemTypes = liveQuery(async () => {
 		if (!browser) {
@@ -51,12 +55,27 @@
 		</select>
 	</div>
 
-	<button
-		type="button"
-		class="btn btn-link btn-xs btn-square rounded"
-		on:click={resetFilters}
-		class:hidden={showClearButton}
-	>
-		<Clear />
-	</button>
+	<div class="flex gap-2">
+		{#if withSorting}
+			<button
+				type="button"
+				class="btn btn-link btn-xs btn-square rounded"
+				on:click={updateSortingOrder}
+			>
+				{#if $sortReviewsByDescending}
+					<Descending />
+				{:else}
+					<Ascending />
+				{/if}
+			</button>
+		{/if}
+		<button
+			type="button"
+			class="btn btn-link btn-xs btn-square rounded"
+			on:click={resetFilters}
+			class:hidden={showClearButton}
+		>
+			<Clear />
+		</button>
+	</div>
 </form>
