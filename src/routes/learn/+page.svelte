@@ -29,6 +29,7 @@
 
 	function clearSelected() {
 		selectedProblems = {};
+		someProblemSelected = false;
 		showReviewPopup = false;
 	}
 
@@ -49,7 +50,7 @@
 	async function handleAddReview(event: CustomEvent<ReviewInfo>) {
 		const { difficulty, reviewDate } = event.detail;
 		const problemIds = Object.keys(selectedProblems).map((id) => Number(id));
-		showReviewPopup = false;
+		clearSelected();
 		await addReviews(reviewDate, difficulty, problemIds);
 		toast.success('Reviews added..');
 		invalidate();
