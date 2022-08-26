@@ -66,6 +66,10 @@
 	$: retentionColor = getColorForPercentage(retention - 1);
 </script>
 
+<svelte:head>
+	<title>Leet Journal{problem ? ` - ${problem.title}` : ''}</title>
+</svelte:head>
+
 {#if problem}
 	<div class="flex gap-4">
 		<div

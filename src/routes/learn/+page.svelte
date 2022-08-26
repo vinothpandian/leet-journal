@@ -63,6 +63,10 @@
 	$: searchTerm, tag, hardness, updateFilters({ searchTerm, tag, hardness });
 </script>
 
+<svelte:head>
+	<title>Leet Journal - Learn</title>
+</svelte:head>
+
 <TitleBar {someProblemSelected} on:clearSelected={clearSelected} />
 <SearchBar bind:searchTerm />
 <Filters bind:hardness bind:tag />

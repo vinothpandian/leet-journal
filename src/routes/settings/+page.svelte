@@ -64,6 +64,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Leet Journal - Settings</title>
+</svelte:head>
+
 <TitleBar title="Settings" withActions={false} />
 
 <!-- Export Import Reset all progress -->
