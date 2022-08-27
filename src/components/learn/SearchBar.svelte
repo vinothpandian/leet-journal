@@ -16,7 +16,7 @@
 <div class="form-control">
 	<div class="flex input-group">
 		<input
-			type="text"
+			type="search"
 			placeholder="Search by question name…"
 			class="input input-sm input-bordered flex-grow"
 			bind:value
