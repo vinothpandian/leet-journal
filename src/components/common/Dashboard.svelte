@@ -7,8 +7,8 @@
 	$: $stats.totalProblems === 0 && invalidate();
 </script>
 
-<div class="flex flex-col flex-grow w-full">
-	<div class="stats w-full p-12 min-h-[230px] overflow-hidden">
+<div class="flex flex-col w-full">
+	<div class="stats w-full px-12 pt-10 flex-shrink-0">
 		<div class="stat text-center">
 			<div class="stat-title uppercase text-xs tracking-widest font-light mb-2">
 				Total<br />Problems

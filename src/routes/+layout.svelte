@@ -16,7 +16,7 @@
 			<div class="grid gap-2 grid-cols-8 grid-rows-1 h-screen divide-x">
 				<section class="col-span-5 h-screen">
 					<Navbar />
-					<div class="flex justify-center dashboard-wrapper">
+					<div class="flex justify-center dashboard-wrapper overflow-auto">
 						<Dashboard />
 					</div>
 				</section>
