@@ -8,7 +8,7 @@
 </script>
 
 <div class="flex flex-col w-full">
-	<div class="stats w-full px-12 pt-12 flex-shrink-0">
+	<div class="stats w-full px-12 pt-10 flex-shrink-0">
 		<div class="stat text-center">
 			<div class="stat-title uppercase text-xs tracking-widest font-light mb-2">
 				Total<br />Problems
