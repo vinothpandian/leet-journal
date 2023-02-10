@@ -8,6 +8,10 @@
 	import { updateProblemNotes } from '$db/queries';
 	import Delete from '$icons/Delete.svelte';
 
+	import UpdateReviewForm from '$components/review/UpdateReviewForm.svelte';
+	import type { ReviewInfo } from '$components/common/types';
+	import { addReviews } from '$db/queries';
+
 	import { getColorForPercentage } from '$lib/colors';
 	import { getFormattedDate, getRelativeDate } from '$lib/date';
 	import { getDifficultyText } from '$lib/difficulty';
@@ -22,7 +26,7 @@
 
 	export let data: { problem: Problem };
 
-	const { problem } = data;
+	$: problem = data.problem;
 
 	let notes: string = problem?.notes ?? '';
 
@@ -52,6 +56,13 @@
 		goto('/');
 	}
 
+	async function handleAddReview(event: CustomEvent<ReviewInfo>) {
+		const { difficulty, reviewDate } = event.detail;
+		await addReviews(reviewDate, difficulty, [problem.id]);
+		toast.success('Review updated...');
+		await invalidate();
+	}
+
 	onDestroy(() => {
 		if (browser) {
 			invalidate();
@@ -64,6 +75,7 @@
 	};
 	$: retention = getRetention(lastReview);
 	$: retentionColor = getColorForPercentage(retention - 1);
+	$: lastDifficulty = lastReview.difficulty;
 </script>
 
 <svelte:head>
@@ -124,6 +136,9 @@
 			</div>
 		</div>
 	</div>
+
+	<UpdateReviewForm on:save={handleAddReview} difficulty={lastDifficulty} />
+
 	<ul class="steps steps-vertical	overflow-auto text-sm text-gray-700">
 		{#each problem.reviews as { reviewDate, difficulty }}
 			<li data-content="" class={`step step-${difficulty}`}>

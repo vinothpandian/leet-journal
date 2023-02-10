@@ -7,7 +7,8 @@
 	import ProblemsList from '$components/learn/ProblemsList.svelte';
 	import SearchBar from '$components/learn/SearchBar.svelte';
 	import TitleBar from '$components/learn/TitleBar.svelte';
-	import type { ProblemState, ReviewInfo } from '$components/learn/types';
+	import type { ProblemState } from '$components/learn/types';
+	import type { ReviewInfo } from '$components/common/types';
 	import { addReviews } from '$db/queries';
 	import type { Hardness } from '$lib/types';
 	import {
@@ -52,7 +53,7 @@
 		const problemIds = Object.keys(selectedProblems).map((id) => Number(id));
 		clearSelected();
 		await addReviews(reviewDate, difficulty, problemIds);
-		toast.success('Reviews added..');
+		toast.success('Reviews added...');
 		invalidate();
 	}
 
