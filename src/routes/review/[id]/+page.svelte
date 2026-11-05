@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { browser } from '$app/env';
+	import { browser } from '$app/environment';
 
-	import { goto, invalidate } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 
 	import HardnessBadge from '$components/common/HardnessBadge.svelte';
 	import LeetCodeLink from '$components/common/LeetCodeLink.svelte';
@@ -60,12 +60,12 @@
 		const { difficulty, reviewDate } = event.detail;
 		await addReviews(reviewDate, difficulty, [problem.id]);
 		toast.success('Review updated...');
-		await invalidate();
+		await invalidateAll();
 	}
 
 	onDestroy(() => {
 		if (browser) {
-			invalidate();
+			invalidateAll();
 		}
 	});
 

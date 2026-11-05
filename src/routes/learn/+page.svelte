@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { invalidate } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
 
 	import AddReviewForm from '$components/learn/AddReviewForm.svelte';
 
@@ -54,7 +54,7 @@
 		clearSelected();
 		await addReviews(reviewDate, difficulty, problemIds);
 		toast.success('Reviews added...');
-		invalidate();
+		invalidateAll();
 	}
 
 	function handleLoadNextPage() {

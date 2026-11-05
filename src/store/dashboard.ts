@@ -1,7 +1,7 @@
 import type { ChartDataset } from 'chart.js';
 import { writable } from 'svelte/store';
 
-import { browser } from '$app/env';
+import { browser } from '$app/environment';
 
 import { getRetentionStats, getStats } from '$db/queries';
 import type { RetentionData, Stats } from '$db/types';

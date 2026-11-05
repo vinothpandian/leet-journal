@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { invalidate } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
 
 	import { chartTitle, datasets, stats } from '$store/dashboard';
 	import Chart from './Chart.svelte';
 
-	$: $stats.totalProblems === 0 && invalidate();
+	$: $stats.totalProblems === 0 && invalidateAll();
 </script>
 
 <div class="flex flex-col w-full">

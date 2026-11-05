@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-vercel';
 import { resolve } from 'path';
 import preprocess from 'svelte-preprocess';
 
@@ -11,7 +11,7 @@ const config = {
 	}),
 
 	kit: {
-		adapter: adapter(),
+		adapter: adapter({ runtime: 'nodejs22.x' }),
 		alias: {
 			$components: resolve('./src/components'),
 			$icons: resolve('./src/icons'),

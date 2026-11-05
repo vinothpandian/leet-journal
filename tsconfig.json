@@ -8,15 +8,6 @@
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"sourceMap": true,
-		"strict": true,
-		"paths": {
-			"$components/*": ["src/components/*"],
-			"$icons/*": ["src/icons/*"],
-			"$lib": ["src/lib"],
-			"$lib/*": ["src/lib/*"],
-			"$db/*": ["src/db/*"],
-			"$store/*": ["src/store/*"],
-			"$constants": ["src/constants.ts"]
-		}
+		"strict": true
 	}
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto, invalidate } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 
 	import TitleBar from '$components/learn/TitleBar.svelte';
 	import db from '$db/db';
@@ -36,7 +36,7 @@
 			}
 
 			await importReviews(fileContent);
-			await invalidate();
+			await invalidateAll();
 			toast.success('Imported reviews from JSON file');
 			goto('/');
 		};
@@ -55,7 +55,7 @@
 			text: 'Reset Everything!',
 			callback: async () => {
 				await db.reset();
-				await invalidate();
+				await invalidateAll();
 				goto('/learn');
 			},
 		});
@@ -88,7 +88,7 @@
 			accept="application/json"
 			on:change={handleImportFile}
 		/>
-		<label for="import-reviews" type="button" class="btn btn-xs"
+		<label for="import-reviews" class="btn btn-xs"
 			>Upload JSON</label
 		>
 	</div>

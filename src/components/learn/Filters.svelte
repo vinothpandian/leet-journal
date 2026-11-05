@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { browser } from '$app/env';
+	import { browser } from '$app/environment';
 	import db from '$db/db';
 	import Ascending from '$icons/Ascending.svelte';
 	import Clear from '$icons/Clear.svelte';
