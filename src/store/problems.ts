@@ -1,6 +1,6 @@
 import { get, writable } from 'svelte/store';
 
-import { browser } from '$app/env';
+import { browser } from '$app/environment';
 import { INITIAL_FILTER_PARAMS } from '$constants';
 import { fetchProblems } from '$db/queries';
 import type { FilterParams } from '$db/types';

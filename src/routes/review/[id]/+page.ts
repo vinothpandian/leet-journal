@@ -1,4 +1,4 @@
-import { browser } from '$app/env';
+import { browser } from '$app/environment';
 import { fetchProblem } from '$db/queries';
 import { hydrateDashboard } from '$store/dashboard';
 import type { PageLoad } from './$types';
